@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import RoutesMapping from './Routes/RoutesMapping';
 
 const App: React.FC = () => {

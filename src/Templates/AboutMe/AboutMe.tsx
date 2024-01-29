@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     AboutText,
     MainContainer,
@@ -8,7 +8,6 @@ import {
     Title,
     TitleContainer,
 } from './AboutMe.style';
-// import CanvasModel from '../../components/CanvasModel/CanvasModel';
 import aboutMeConstants from './aboutMeConstants';
 import CanvasModel from '../../Components/CanvasModel/CanvasModel';
 

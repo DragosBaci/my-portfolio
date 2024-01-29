@@ -7,7 +7,6 @@ import {
     Title,
     TitleSeparator,
 } from './Connections.style';
-import ConnectionsButton from '../../Components/ConnectionsButton/ConnectionsButton';
 import Animation from '../../Components/Animation/Animation';
 import WorkTitle from '../../Components/WorkTitle/WorkTitle';
 import React from 'react';

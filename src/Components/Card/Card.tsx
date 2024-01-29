@@ -9,7 +9,6 @@ import {
 } from './Card.style';
 import { useIsClickedContext } from '../../Context/IsClickedContext';
 import { CardType } from '../../Utils/Types';
-import useIsMobile from '../../Hooks/useIsMobile';
 
 const Card: React.FC<CardType> = ({ id, title, subtitle, description, image, link, isHidden }) => {
     const { updateIsClicked } = useIsClickedContext();

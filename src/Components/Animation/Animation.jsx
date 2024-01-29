@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Ul } from './StyledAnimation';
 import { fakeData } from './fakeData';
-import CustomButton from '../CustomButton/CustomButton';
 import ConnectionsButton from '../ConnectionsButton/ConnectionsButton';
 
 const Animation = () => {
