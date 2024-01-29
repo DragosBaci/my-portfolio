@@ -7,9 +7,13 @@ import Connections from '../Connections/Connections';
 import LetsConnect from '../LetsConnect/LetsConnect';
 import NavBar from '../NavBar/NavBar';
 import useIsMobile from '../../Hooks/useIsMobile';
+import useOrientation from '../../Hooks/useOrientation';
+import OrientationNotSupported from '../OrientationNotSupported/OrientationNotSupported';
 
 export function PageContent() {
     const { isMobile } = useIsMobile();
+    const orientation = useOrientation();
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         document.body.style.overflow = 'hidden';
@@ -20,6 +24,11 @@ export function PageContent() {
 
         return () => clearTimeout(timeoutId);
     }, []);
+
+    if (orientation === 'landscape-primary' && isMobile) {
+        return <OrientationNotSupported />;
+    }
+
     return (
         <>
             {!isMobile && <NavBar />}
