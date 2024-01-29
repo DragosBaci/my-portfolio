@@ -54,7 +54,7 @@ const LetsConnect = () => {
                     <BottomNavbarSplitter>
                         <BottomNavbarSocials title={'Linkedin'} link={'https://www.linkedin.com/in/dragosbaci21/'} />
                         <BottomNavbarSocials title={'Github'} link={'https://github.com/DragosBaci'} />
-                        <BottomNavbarSocials title={'Download CV'} link={''} />
+                        <BottomNavbarSocials title={'Download CV'} downloadCV={true} />
                     </BottomNavbarSplitter>
                 </BottomNavbarContainer>
             </SplitContainerItemsRight>

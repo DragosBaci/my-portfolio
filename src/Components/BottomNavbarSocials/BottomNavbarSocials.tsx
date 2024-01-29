@@ -3,12 +3,22 @@ import { BottomNavbarSocialsContainer, BottomNavbarSocialsTitle } from './Bottom
 
 type BottomNavbarSocialsProps = {
     title: string;
-    link: string;
+    link?: string;
+    downloadCV?: boolean;
 };
 
-const BottomNavbarSocials: React.FC<BottomNavbarSocialsProps> = ({ title, link }) => {
+const BottomNavbarSocials: React.FC<BottomNavbarSocialsProps> = ({ title, link, downloadCV }) => {
     const handleClick = () => {
-        window.open(link);
+        if (downloadCV) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = '/Dragos Baci.pdf';
+            downloadLink.download = 'Dragos_Baci_CV.pdf';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        } else {
+            window.open(link);
+        }
     };
 
     return (
