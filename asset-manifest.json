@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.8a32e81c.css",
-    "main.js": "/static/js/main.65f1df3b.js",
+    "main.js": "/static/js/main.ca039191.js",
     "static/js/787.861fdc3f.chunk.js": "/static/js/787.861fdc3f.chunk.js",
     "static/media/background.jpg": "/static/media/background.e6659c94cd06138440fb.jpg",
     "static/media/backgroundMobile.jpg": "/static/media/backgroundMobile.533cc36de053202c4c38.jpg",
@@ -14,11 +14,11 @@
     "static/media/TuskerGrotesk-2600Semibold.otf": "/static/media/TuskerGrotesk-2600Semibold.334c714b1761a82d1ab6.otf",
     "index.html": "/index.html",
     "main.8a32e81c.css.map": "/static/css/main.8a32e81c.css.map",
-    "main.65f1df3b.js.map": "/static/js/main.65f1df3b.js.map",
+    "main.ca039191.js.map": "/static/js/main.ca039191.js.map",
     "787.861fdc3f.chunk.js.map": "/static/js/787.861fdc3f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8a32e81c.css",
-    "static/js/main.65f1df3b.js"
+    "static/js/main.ca039191.js"
   ]
 }
