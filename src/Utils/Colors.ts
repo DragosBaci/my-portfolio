@@ -1,0 +1,15 @@
+export const theme = {
+    primary: '#EF7733',
+    secondary: '#ffffff26',
+    success: '#198754',
+    warning: '#FFC107',
+    danger: '#DC3545',
+    fontColor: '#f5eee6',
+    secondaryFontColor: '#efd8b7',
+    mainSurface: '#1C1B21',
+    secondarySurface: '#ffffffcc',
+    aboutSubscreenButtonsPrimary: '#EF7733',
+    aboutSubscreenButtonsInactive: 'rgba(255, 255, 255, 0.16)',
+    aboutSubscreenFacilitiesCardBackground: 'rgba(255, 255, 255, 0.08)',
+    selectedLanguageButtonBackground: 'rgba(255, 255, 255, 0.48)',
+};

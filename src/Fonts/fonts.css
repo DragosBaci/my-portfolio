@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "Tusker-Medium";
+    src: local("AirbnbCerealLight"),
+    url("./tusker-grotesk/TuskerGrotesk-1500Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Tusker-Bold";
+    src: local("AirbnbCerealLight"),
+    url("./tusker-grotesk/TuskerGrotesk-2600Semibold.otf") format("truetype");
+}
+
+@font-face {
+    font-family: "Migra";
+    src: local("AirbnbCerealLight"),
+    url("./migra/Migra-Extrabold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Migra-light";
+    src: local("AirbnbCerealLight"),
+    url("./migra/MigraItalic-ExtraboldItalic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Maelstorm";
+    src: local("AirbnbCerealLight"),
+    url("./maelstorm.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Neue-Montreal";
+    src: local("AirbnbCerealLight"),
+    url("./neue-montreal/NeueMontreal-Medium.otf") format("truetype");
+}
+
