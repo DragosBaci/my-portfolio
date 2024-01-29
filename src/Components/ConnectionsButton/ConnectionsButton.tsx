@@ -9,7 +9,6 @@ type ConnectionsButtonProps = {
 const ConnectionsButton: React.FC<ConnectionsButtonProps> = ({ value, goTo }) => {
     const handleClick = () => {
         window.open(goTo);
-        console.log(goTo);
     };
 
     return (
