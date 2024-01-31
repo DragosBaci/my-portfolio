@@ -10,7 +10,7 @@ import useIsMobile from '../../Hooks/useIsMobile';
 import useOrientation from '../../Hooks/useOrientation';
 import OrientationNotSupported from '../OrientationNotSupported/OrientationNotSupported';
 
-export function PageContent() {
+function PageContent() {
     const { isMobile } = useIsMobile();
     const orientation = useOrientation();
 
@@ -20,8 +20,9 @@ export function PageContent() {
 
         const timeoutId = setTimeout(() => {
             document.body.style.overflow = 'visible';
-        }, 2000);
-
+        }, 2500);
+        console.log('useEffect is running');
+        console.log(document.body.style.overflow);
         return () => clearTimeout(timeoutId);
     }, []);
 
