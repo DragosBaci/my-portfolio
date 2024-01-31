@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #131313;
+  overflow-x:hidden;
 
 }
 
@@ -15,7 +16,8 @@ code {
 }
 
 html,body{
-  height:100%;
+  overflow-x: hidden;
+  height:auto;
 }
 
 ul,

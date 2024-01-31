@@ -17,12 +17,12 @@ function PageContent() {
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         document.body.style.overflow = 'hidden';
+        document.body.style.height = '100vh';
 
         const timeoutId = setTimeout(() => {
             document.body.style.overflow = 'visible';
+            document.body.style.height = 'auto';
         }, 2500);
-        console.log('useEffect is running');
-        console.log(document.body.style.overflow);
         return () => clearTimeout(timeoutId);
     }, []);
 

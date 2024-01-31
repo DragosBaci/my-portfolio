@@ -13,7 +13,7 @@ import CustomWhiteButton from '../../Components/CustomWhiteButton/CustomWhiteBut
 export default function Work() {
     const { id } = useParams();
 
-    // @ts-ignore
+    //@ts-ignore
     const selectedItem = items.find(card => card.id === parseInt(id, 10));
 
     return (
