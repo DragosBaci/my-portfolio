@@ -7,7 +7,7 @@ const RoutesMapping = () => {
         <Routes>
             <Route path="/" element={<PageContent />} />
             <Route path="/:id" element={<PageContent />} />
-            <Route path="*" element={<NotFound />} />
+            <Route element={<NotFound />} />
         </Routes>
     );
 };
