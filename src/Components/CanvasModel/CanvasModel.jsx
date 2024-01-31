@@ -20,7 +20,7 @@ function CanvasModel() {
     const { isMobile } = useIsMobile();
 
     return (
-        <CanvasModelContainer isMobile={isMobile}>
+        <CanvasModelContainer style={{ height: `${isMobile ? '55vh' : '90vh'}` }}>
             <Canvas dpr={2} camera={{ fov: 45, position: [0, 0, 5] }}>
                 <PresentationControls speed={1.5} zoom={0} polar={[0, 0]}>
                     <Stage environment={'city'} intensity={0.5}>
