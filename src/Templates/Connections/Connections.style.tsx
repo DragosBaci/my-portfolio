@@ -5,7 +5,6 @@ export const MainContainer = styled.div`
     display: flex;
     justify-content: space-around;
     height: 100vh;
-    padding-left: 15px;
     width: 100%;
     @media (max-width: 767px) {
         padding: 0;
@@ -43,6 +42,9 @@ export const TitleSeparator = styled.div`
     @media (max-width: 767px) {
         height: 6rem;
     }
+    @media (max-width: 400px) {
+        height: 4rem;
+    }
 `;
 
 export const Title = styled.span`
@@ -58,6 +60,10 @@ export const Title = styled.span`
     @media (max-width: 767px) {
         font-size: 6rem;
         height: 6rem;
+    }
+    @media (max-width: 400px) {
+        font-size: 4rem;
+        height: 4rem;
     }
 `;
 
