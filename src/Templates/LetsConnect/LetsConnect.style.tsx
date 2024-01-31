@@ -7,6 +7,7 @@ export const LetsConnectContainer = styled.div`
     height: 100vh;
     width: 100%;
     @media (max-width: 767px) {
+        display: block;
         flex-direction: column;
         justify-content: center;
         align-content: flex-start;
@@ -103,7 +104,7 @@ export const BottomNavbarSplitter = styled.div`
     width: 98%;
     display: flex;
     align-items: center;
-    padding-left: 3%;
+    padding-left: 2%;
     @media (max-width: 767px) {
         margin-bottom: 5%;
         margin-top: 3%;

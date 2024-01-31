@@ -4,7 +4,6 @@ export const MainContainer = styled.div`
     display: flex;
     justify-content: space-around;
     height: 100vh;
-    padding-left: 15px;
     width: 100vw;
     margin-top: 50vh;
     @media (max-width: 767px) {
@@ -68,6 +67,10 @@ export const Title = styled.span`
     @media (max-width: 767px) {
         font-size: 4.5rem;
         height: 4.5rem;
+    }
+    @media (max-width: 400px) {
+        font-size: 3.5rem;
+        height: 3.5rem;
     }
 `;
 

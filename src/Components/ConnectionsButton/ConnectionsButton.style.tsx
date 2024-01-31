@@ -24,10 +24,12 @@ export const ButtonContainer = styled.div`
     transition: all 0.2s ease-out;
     overflow: hidden;
     cursor: pointer;
+
     @media (max-width: 767px) {
-        font-size: 20px;
+        font-size: 15px;
         align-self: baseline;
         margin-left: 20px;
+        width: 90%;
     }
 `;
 interface ButtonInfoProps {
