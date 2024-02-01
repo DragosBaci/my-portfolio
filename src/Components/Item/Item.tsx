@@ -20,7 +20,7 @@ type ItemProps = {
 };
 
 const Item: React.FC<ItemProps> = ({ id, cardData }) => {
-    const { updateIsClicked } = useIsClickedContext();
+    const { updateIsClicked, isClicked } = useIsClickedContext();
 
     return (
         <>
@@ -33,8 +33,10 @@ const Item: React.FC<ItemProps> = ({ id, cardData }) => {
                 <OverlayLink
                     to={'/'}
                     onClick={() => {
-                        document.body.style.overflowY = 'auto';
+                        document.body.style.overflow = 'auto';
                         updateIsClicked(false);
+                        console.log('clicked');
+                        console.log(isClicked);
                     }}
                 />
             </Overlay>

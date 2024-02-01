@@ -16,7 +16,6 @@ code {
 }
 
 html,body{
-  overflow-x: hidden;
   height:auto;
 }
 
@@ -29,5 +28,4 @@ li {
 
 html {
   scroll-behavior: smooth;
-  overflow-x:hidden;
 }

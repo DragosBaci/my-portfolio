@@ -11,11 +11,12 @@ import { useIsClickedContext } from '../../Context/IsClickedContext';
 import { CardType } from '../../Utils/Types';
 
 const Card: React.FC<CardType> = ({ id, title, subtitle, description, image, link, isHidden }) => {
-    const { updateIsClicked } = useIsClickedContext();
+    const { updateIsClicked, isClicked } = useIsClickedContext();
 
     const handleClick = () => {
-        document.body.style.overflowY = 'hidden';
+        document.body.style.overflow = 'hidden';
         updateIsClicked(true);
+        console.log(isClicked);
     };
 
     return (
