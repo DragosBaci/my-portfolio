@@ -43,7 +43,7 @@ const Item: React.FC<ItemProps> = ({ id, cardData }) => {
             <CardContentContainerOpen>
                 <CardContent layoutId={`card-container-${id}`}>
                     <CardImageContainer layoutId={`card-image-container-${id}`}>
-                        <CardImage src={`images/${cardData.image}`} alt="" />
+                        <CardImage src={`images/${cardData.image}`} alt="card image" />
                     </CardImageContainer>
                     <ContentContainer>
                         <ContentTitleContainer>
