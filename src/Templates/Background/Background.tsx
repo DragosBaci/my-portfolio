@@ -22,6 +22,7 @@ const Background = () => {
             variants={backgroundAnimation}
             initial="hidden"
             animate="visible"
+            alt="background"
         />
     );
 };

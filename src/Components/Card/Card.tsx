@@ -24,7 +24,7 @@ const Card: React.FC<CardType> = ({ id, title, subtitle, description, image, lin
             <CardContentContainer>
                 <CardContent layoutId={`card-container-${id}`}>
                     <CardImageContainer layoutId={`card-image-container-${id}`}>
-                        <CardImage src={`/images/${image}`} alt="" />
+                        <CardImage src={`/images/${image}`} alt="card image" />
                     </CardImageContainer>
                 </CardContent>
             </CardContentContainer>

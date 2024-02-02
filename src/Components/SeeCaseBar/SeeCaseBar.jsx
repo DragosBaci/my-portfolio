@@ -21,7 +21,7 @@ const SeeCaseBar = ({ link }) => {
                     </LeftContainer>
                     <RightContainer>
                         <NavbarLinkContainer>
-                            <NavbarLink href={link} target="_blank" rel="noopener noreferrer">
+                            <NavbarLink href={link} target="_blank" rel="noopener noreferrer" aria-label="go to case">
                                 see case
                             </NavbarLink>
                         </NavbarLinkContainer>
