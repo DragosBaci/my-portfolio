@@ -20,7 +20,7 @@ function PageContent() {
         document.body.style.height = '100vh';
 
         const timeoutId = setTimeout(() => {
-            document.body.style.overflow = 'visible';
+            document.body.style.overflowX = 'visible';
             document.body.style.height = 'auto';
         }, 2500);
         return () => clearTimeout(timeoutId);
