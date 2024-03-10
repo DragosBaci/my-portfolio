@@ -4,13 +4,15 @@ import { theme } from '../../Utils/Colors';
 
 export const LetsConnectContainer = styled.div`
     display: flex;
-    height: 100vh;
+    height: 100%;
     width: 100%;
+    margin-bottom: 3%;
     @media (max-width: 767px) {
         display: block;
         flex-direction: column;
         justify-content: center;
         align-content: flex-start;
+        margin-bottom: 0;
     }
 `;
 
@@ -105,6 +107,7 @@ export const BottomNavbarSplitter = styled.div`
     display: flex;
     align-items: center;
     padding-left: 2%;
+    padding-bottom: 1%;
     @media (max-width: 767px) {
         margin-bottom: 5%;
         margin-top: 3%;
@@ -132,7 +135,7 @@ export const BottomNavbarTitle = styled.h1`
     padding-right: 5%;
     text-transform: uppercase;
     @media (max-width: 767px) {
-        font-size: 1rem;
+        font-size: 1 rem;
         width: 40%;
     }
 `;

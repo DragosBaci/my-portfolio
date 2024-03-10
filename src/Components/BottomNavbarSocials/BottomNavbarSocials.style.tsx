@@ -35,6 +35,6 @@ export const BottomNavbarSocialsTitle = styled.h1`
     }
 
     @media (max-width: 767px) {
-        font-size: 0.7rem;
+        font-size: 1.2rem;
     }
 `;
