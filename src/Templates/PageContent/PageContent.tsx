@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Background from '../Background/Background';
 import AboutMe from '../AboutMe/AboutMe';
+import Experience from '../Experience/Experience';
 import Home from '../Home/Home';
 import Work from '../Work/Work';
 import Connections from '../Connections/Connections';
@@ -50,6 +51,7 @@ function PageContent() {
             <Background />
             <Home />
             <AboutMe />
+            <Experience />
             <Work />
             <Connections />
             <LetsConnect />

@@ -133,3 +133,21 @@ export const caseSubtitleReveal: Variants = {
         transition: { duration: 0.6, delay: 0.15, ease: caseEase },
     },
 };
+
+/**
+ * Timeline entries slide in from whichever side of the center line they sit on, via
+ * the `custom` prop (see framer-motion's per-instance variant resolution). A small
+ * offset rather than a full clip-reveal: these elements are never fully hidden inside
+ * an `overflow: hidden` ancestor, so a plain fade/slide is enough here.
+ */
+export const experienceEntryReveal: Variants = {
+    hidden: (side: 'left' | 'right') => ({
+        opacity: 0,
+        x: side === 'left' ? -24 : 24,
+    }),
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.6, ease: caseEase },
+    },
+};
