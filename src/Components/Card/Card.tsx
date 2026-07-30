@@ -11,10 +11,9 @@ type CardProps = {
     column: number;
     row: number;
     mobileRow: number;
-    bleed?: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, image, title, column, row, mobileRow, bleed }) => {
+const Card: React.FC<CardProps> = ({ id, image, title, column, row, mobileRow }) => {
     /*
      * Observed on the cell rather than on the image: the image starts a full height below
      * its `overflow: hidden` clip, and IntersectionObserver intersects against clipping
@@ -23,7 +22,7 @@ const Card: React.FC<CardProps> = ({ id, image, title, column, row, mobileRow, b
     const { ref, hasEnteredViewport } = useInViewport<HTMLDivElement>({ rootMargin: '-10% 0px' });
 
     return (
-        <ImageCell ref={ref} $column={column} $row={row} $mobileRow={mobileRow} $bleed={bleed}>
+        <ImageCell ref={ref} $column={column} $row={row} $mobileRow={mobileRow}>
             <ImageClip>
                 <ImageInner
                     variants={caseImageReveal}

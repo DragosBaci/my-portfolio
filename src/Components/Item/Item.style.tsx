@@ -99,9 +99,15 @@ export const Subtitle = styled.div`
 `;
 
 /*
- * A flat colour rather than a `brightness(0.4)`-filtered photo: the old version made
- * the browser composite a full-viewport filtered image layer on every frame of the
- * open/close fade, for a backdrop that was almost black anyway.
+ * Paints its own dimmed copy of the site background image, rather than trying to let
+ * the real `<Background />` show through via transparency: that was the previous
+ * attempt, and it broke because the Selected Cases grid sits in the stacking order
+ * between this overlay and Background (z-index: -10, far behind) - a translucent
+ * overlay reveals *everything* underneath it, not just the intended layer, so the grid
+ * ghosted through along with the fresco. Painting the image here directly, fully
+ * opaque, blocks the grid entirely and gives the same darkened-backdrop look as the
+ * reference site's case detail view. Same URL Background.tsx already uses, so this is
+ * a cache hit, not a second download.
  */
 export const Overlay = styled(motion.div)`
     z-index: 1;
@@ -111,7 +117,16 @@ export const Overlay = styled(motion.div)`
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    background-color: #0d0d0d;
+    background:
+        linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.72)),
+        url('/images/background.jpg') center / cover no-repeat;
+
+    @media (max-width: 768px) {
+        background:
+            linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.72)),
+            url('/images/backgroundMobile.jpg') center / cover no-repeat;
+    }
+
     /* The parent container is pointer-events: none so the panel doesn't swallow scroll;
        the overlay must opt back in for its close-on-click link to work. */
     pointer-events: auto;

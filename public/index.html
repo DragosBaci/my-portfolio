@@ -59,6 +59,18 @@
         src: url("%PUBLIC_URL%/fonts/NeueMontreal-Medium.otf") format("opentype");
         font-display: swap;
       }
+      /*
+        Same family as Tusker-Bold above, but width class 5 (Normal) instead of 2
+        (Extra-condensed) - used only where Tusker-Bold's condensed cut reads as
+        cramped at smaller sizes (currently just the Experience timeline headline).
+        Not preloaded above: unlike Tusker-Bold, this isn't needed for the initial
+        viewport, so it can load lazily without competing with the critical path.
+      */
+      @font-face {
+        font-family: "Tusker-Normal";
+        src: url("%PUBLIC_URL%/fonts/TuskerGrotesk-5600Semibold.otf") format("opentype");
+        font-display: swap;
+      }
     </style>
     <!--
       The background image is the largest contentful paint. `media` makes sure only the

@@ -7,8 +7,6 @@ import CaseText from './CaseText';
 type CaseLayout = {
     textColumn: number;
     imageColumn: number;
-    /** Negative left margin on the image, letting it hang into the previous column. */
-    imageBleed?: string;
     /** Left padding on the text cell when it sits to the right of an image. */
     textIndent?: string;
 };
@@ -17,13 +15,19 @@ type CaseLayout = {
  * Which columns each row's two cells occupy. The pair walks rightward across the three
  * columns and then resets, which is what makes the grid feel hand-placed rather than
  * tabular. Rows beyond the fifth cycle back through the same pattern.
+ *
+ * No negative margin pulling images into the neighboring column: that "bleed" look was
+ * copied from the reference site, but it meant an image's rendered box always actually
+ * overlapped the text column next to it - fine when there was room to spare, a real
+ * collision once either side needed more space. Columns now stay strictly inside their
+ * own track.
  */
 const caseLayouts: CaseLayout[] = [
-    { textColumn: 1, imageColumn: 2, imageBleed: '-7vw' },
+    { textColumn: 1, imageColumn: 2 },
     { textColumn: 2, imageColumn: 1, textIndent: '1vw' },
     { textColumn: 3, imageColumn: 2, textIndent: '1vw' },
-    { textColumn: 2, imageColumn: 3, imageBleed: '-8.5vw' },
-    { textColumn: 1, imageColumn: 2, imageBleed: '-14vw' },
+    { textColumn: 2, imageColumn: 3 },
+    { textColumn: 1, imageColumn: 2 },
 ];
 
 const List: React.FC = () => {
@@ -55,7 +59,6 @@ const List: React.FC = () => {
                             column={layout.imageColumn}
                             row={row}
                             mobileRow={index * 2 + 1}
-                            bleed={layout.imageBleed}
                         />
                     );
 

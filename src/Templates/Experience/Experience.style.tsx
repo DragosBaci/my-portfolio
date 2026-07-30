@@ -128,15 +128,16 @@ export const TitleLine = styled.div<SideProps>`
 `;
 
 /*
- * Tusker Grotesk here is the same condensed cut used at 17.7vw on the hero - fine at
- * that scale, but cramped at this one. Letter-spacing is the standard fix for a
- * condensed face used below its ideal size, rather than swapping the font itself.
+ * Tusker-Normal, not Tusker-Bold: letter-spacing alone couldn't fix this readably,
+ * because the problem was the letterforms themselves, not the space between them -
+ * Tusker-Bold (used at 17.7vw on the hero) is OS/2 width class 2 (Extra-condensed),
+ * genuinely narrow. Tusker-Normal is the same family at width class 5 (Normal).
  */
 export const EntryHeadline = styled.h3<SideProps>`
-    font-family: Tusker-Bold, serif;
+    font-family: Tusker-Normal, serif;
     font-size: 2.9vw;
     line-height: 1.1;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
     color: ${theme.fontColor};
     margin: 0;
@@ -145,12 +146,12 @@ export const EntryHeadline = styled.h3<SideProps>`
     @media (max-width: 900px) {
         order: 2;
         font-size: 5.4vw;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.01em;
     }
 
     @media (max-width: 767px) {
         font-size: 1.85rem;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.01em;
     }
 `;
 

@@ -65,20 +65,23 @@ export const NavbarLinkContainer = styled.div`
 const navLinkStyles = css`
     color: white;
     text-decoration: none;
-    font-family: Migra;
     font-size: 1vw;
     white-space: nowrap;
 `;
 
 export const NavbarLink = styled(Link)`
     ${navLinkStyles}
+    font-family: Migra;
 `;
 
 /* A plain anchor, not a router Link: these scroll to an id on the current page rather
    than navigating, so the browser's native (and already `scroll-behavior: smooth`)
-   hash-anchor handling is simpler and more robust than wiring up refs by hand. */
+   hash-anchor handling is simpler and more robust than wiring up refs by hand.
+   Neue-Montreal rather than Migra (used on the brand link to the left): Migra is a
+   stylized serif meant for subtitles, not small UI text - it read poorly at this size. */
 export const NavbarScrollLink = styled.a`
     ${navLinkStyles}
+    font-family: Neue-Montreal, sans-serif;
     position: relative;
     cursor: pointer;
     padding-bottom: 4px;
