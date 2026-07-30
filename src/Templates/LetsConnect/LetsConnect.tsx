@@ -19,7 +19,7 @@ import CustomWhiteButton from '../../Components/CustomWhiteButton/CustomWhiteBut
 
 const LetsConnect = () => {
     return (
-        <LetsConnectContainer>
+        <LetsConnectContainer id="contact">
             <SplitContainerItemsLeft>
                 <Title>Let's</Title>
                 <Title>Connect</Title>

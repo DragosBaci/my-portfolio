@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 export const BlurBackgroundContainer = styled(motion.div)`
@@ -42,14 +42,14 @@ export const NavigationBarProgress = styled(motion.div)`
 `;
 
 export const LeftContainer = styled.div`
-    flex: 70%;
+    flex: 40%;
     display: flex;
     align-items: center;
     padding-left: 5%;
 `;
 
 export const RightContainer = styled.div`
-    flex: 30%;
+    flex: 60%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -58,11 +58,43 @@ export const RightContainer = styled.div`
 
 export const NavbarLinkContainer = styled.div`
     display: flex;
+    align-items: center;
+    gap: 2vw;
 `;
 
-export const NavbarLink = styled(Link)`
+const navLinkStyles = css`
     color: white;
     text-decoration: none;
     font-family: Migra;
     font-size: 1vw;
+    white-space: nowrap;
+`;
+
+export const NavbarLink = styled(Link)`
+    ${navLinkStyles}
+`;
+
+/* A plain anchor, not a router Link: these scroll to an id on the current page rather
+   than navigating, so the browser's native (and already `scroll-behavior: smooth`)
+   hash-anchor handling is simpler and more robust than wiring up refs by hand. */
+export const NavbarScrollLink = styled.a`
+    ${navLinkStyles}
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 4px;
+
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.3s ease;
+    }
+
+    &:hover:after {
+        width: 100%;
+    }
 `;

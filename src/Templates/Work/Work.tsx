@@ -17,7 +17,7 @@ export default function Work() {
 
     return (
         <>
-            <WorkTitleButtonContainer>
+            <WorkTitleButtonContainer id="work">
                 <WorkTitle title={'Selected Cases'} subtitle={''} star={true} />
             </WorkTitleButtonContainer>
             <List />

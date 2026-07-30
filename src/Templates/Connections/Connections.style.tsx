@@ -6,6 +6,12 @@ export const MainContainer = styled.div`
     justify-content: space-around;
     height: 100vh;
     width: 100%;
+
+    /* See AboutMe.style.tsx for why this is gated to when NavBar is actually rendered. */
+    @media (min-width: 769px) {
+        scroll-margin-top: 9vh;
+    }
+
     @media (max-width: 767px) {
         padding: 0;
         flex-direction: column;

@@ -17,4 +17,9 @@ export const WorkTitleButtonContainer = styled.div`
     @media (max-width: 767px) {
         padding-left: 0;
     }
+
+    /* See AboutMe.style.tsx for why this is gated to when NavBar is actually rendered. */
+    @media (min-width: 769px) {
+        scroll-margin-top: 9vh;
+    }
 `;

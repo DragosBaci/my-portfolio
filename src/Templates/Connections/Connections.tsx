@@ -13,7 +13,7 @@ import React from 'react';
 
 const Connections = () => {
     return (
-        <MainContainer>
+        <MainContainer id="connections">
             <SplitContainer>
                 <TextContainer>
                     <TitleSeparator>

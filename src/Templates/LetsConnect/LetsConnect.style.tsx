@@ -7,6 +7,12 @@ export const LetsConnectContainer = styled.div`
     height: 100%;
     width: 100%;
     margin-bottom: 3%;
+
+    /* See AboutMe.style.tsx for why this is gated to when NavBar is actually rendered. */
+    @media (min-width: 769px) {
+        scroll-margin-top: 9vh;
+    }
+
     @media (max-width: 767px) {
         display: block;
         flex-direction: column;

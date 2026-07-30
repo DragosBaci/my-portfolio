@@ -6,6 +6,13 @@ export const MainContainer = styled.div`
     height: 100vh;
     width: 100vw;
     margin-top: 50vh;
+
+    /* Offsets the jump-to-section landing point below the fixed NavBar, which is only
+       rendered above this same breakpoint - see PageContent's useEffect for the NavBar's breakpoint. */
+    @media (min-width: 769px) {
+        scroll-margin-top: 9vh;
+    }
+
     @media (max-width: 767px) {
         padding: 0;
         flex-direction: column;

@@ -22,7 +22,7 @@ const Experience: React.FC = () => {
     });
 
     return (
-        <ExperienceContainer>
+        <ExperienceContainer id="experience">
             <TimelineHeader>
                 <WorkTitle title={'Professional Experience'} subtitle={''} star={true} />
             </TimelineHeader>

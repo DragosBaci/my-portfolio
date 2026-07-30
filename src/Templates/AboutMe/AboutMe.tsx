@@ -13,7 +13,7 @@ import CanvasModel from '../../Components/CanvasModel/DeferredCanvasModel';
 
 const AboutMe: React.FC = () => {
     return (
-        <MainContainer>
+        <MainContainer id="about">
             <SplitContainer>
                 <TextContainer>
                     <TitleContainer>
