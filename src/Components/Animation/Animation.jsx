@@ -1,44 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, Ul } from './StyledAnimation';
-import { fakeData } from './fakeData';
+import { connectionsData } from './connectionsData';
 import ConnectionsButton from '../ConnectionsButton/ConnectionsButton';
 
 const Animation = () => {
-    const [position, setPosition] = useState({
-        x: '',
-        y: '',
-    });
-
-    const handleMouseMove = e => {
-        setPosition({
-            x: e.clientX,
-            y: e.clientY,
-        });
-    };
-
-    useEffect(() => {
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
-
     return (
         <Container>
             <Ul>
-                {fakeData.map((elem, i) => (
-                    <li key={i}>
+                {connectionsData.map(elem => (
+                    <li key={elem.id}>
                         <span>
-                            <ConnectionsButton value={'Cigan oliviu software developer'} goTo={elem.goTo} />
+                            <ConnectionsButton value={elem.label} goTo={elem.goTo} />
                         </span>
                         <div className="img-cont">
-                            <img src={elem.img} alt={elem.name} />
+                            <img src={elem.img} alt={elem.name} loading="lazy" decoding="async" />
                         </div>
                     </li>
                 ))}
             </Ul>
-
-            <div style={{ left: `${position.x}px`, top: `${position.y}px` }} className="cursor"></div>
         </Container>
     );
 };

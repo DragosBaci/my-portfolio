@@ -9,7 +9,7 @@ import {
     TitleContainer,
 } from './AboutMe.style';
 import aboutMeConstants from './aboutMeConstants';
-import CanvasModel from '../../Components/CanvasModel/CanvasModel';
+import CanvasModel from '../../Components/CanvasModel/DeferredCanvasModel';
 
 const AboutMe: React.FC = () => {
     return (

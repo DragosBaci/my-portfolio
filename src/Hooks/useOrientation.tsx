@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
 
-const useOrientation = () => window.screen?.orientation?.type;
+const getOrientationType = () => window.screen?.orientation?.type;
 
 const useScreenOrientation = () => {
-    const [orientation, setOrientation] = useState(useOrientation());
-
-    const UpdateOrientation = () => {
-        setOrientation(useOrientation());
-    };
+    const [orientation, setOrientation] = useState(getOrientationType);
 
     useEffect(() => {
-        window.addEventListener('orientationchange', UpdateOrientation);
-        return () => {
-            window.removeEventListener('orientationchange', UpdateOrientation);
-        };
+        const screenOrientation = window.screen?.orientation;
+        const handleChange = () => setOrientation(getOrientationType());
+
+        // Re-sync in case the device rotated between render and effect.
+        handleChange();
+
+        // The Screen Orientation API is the accurate source; the deprecated window
+        // `orientationchange` event is only a fallback for browsers without it.
+        if (screenOrientation) {
+            screenOrientation.addEventListener('change', handleChange);
+            return () => screenOrientation.removeEventListener('change', handleChange);
+        }
+
+        window.addEventListener('orientationchange', handleChange);
+        return () => window.removeEventListener('orientationchange', handleChange);
     }, []);
 
     return orientation;

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import '../../Fonts/fonts.css';
 import { theme } from '../../Utils/Colors';
 
 export const HomeContainer = styled.div`

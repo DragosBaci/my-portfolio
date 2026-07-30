@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import '../../Fonts/fonts.css';
 import { theme } from '../../Utils/Colors';
 import img from '../../Assets/images/star.png';
 import { motion } from 'framer-motion';

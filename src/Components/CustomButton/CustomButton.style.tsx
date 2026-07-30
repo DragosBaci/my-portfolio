@@ -10,7 +10,12 @@ const marqueeAnim = keyframes`
     }
 `;
 
-export const ButtonContainer = styled.div`
+/*
+ * Rendered as an <a> when it has an action (mailto) and as an inert <span> when it is
+ * just a tag, via the `as` prop - a div with onClick is unreachable by keyboard and
+ * invisible to assistive tech.
+ */
+export const ButtonContainer = styled.a<{ $inert?: boolean }>`
     display: inline-block;
     position: relative;
     color: ${theme.fontColor};
@@ -24,7 +29,7 @@ export const ButtonContainer = styled.div`
     user-select: none;
     transition: all 0.2s ease-out;
     overflow: hidden;
-    cursor: pointer;
+    cursor: ${({ $inert }) => ($inert ? 'default' : 'pointer')};
     margin-bottom: 12px;
     margin-right: 1vw;
     align-self: flex-end;

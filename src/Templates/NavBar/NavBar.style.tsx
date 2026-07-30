@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import '../../Fonts/fonts.css';
 export const BlurBackgroundContainer = styled(motion.div)`
     position: fixed;
     width: 100%;
@@ -63,7 +62,6 @@ export const NavbarLinkContainer = styled.div`
 
 export const NavbarLink = styled(Link)`
     color: white;
-    font-size: small;
     text-decoration: none;
     font-family: Migra;
     font-size: 1vw;

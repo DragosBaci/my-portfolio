@@ -10,7 +10,7 @@ const marqueeAnim = keyframes`
     }
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.a`
     display: inline-block;
     position: relative;
     color: ${theme.fontColor};

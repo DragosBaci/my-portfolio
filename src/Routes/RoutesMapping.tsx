@@ -5,9 +5,11 @@ import NotFound from '../Templates/NotFound/NotFound';
 const RoutesMapping = () => {
     return (
         <Routes>
-            <Route path="/" element={<PageContent />} />
-            <Route path="/:id" element={<PageContent />} />
-            <Route element={<NotFound />} />
+            {/* One route with an optional param, not two: separate "/" and "/:id" entries
+                would remount PageContent on every card open/close, replaying the intro
+                animation and its scroll lock each time. */}
+            <Route path="/:id?" element={<PageContent />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };

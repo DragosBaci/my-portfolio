@@ -5,5 +5,4 @@ export type CardType = {
     description: string;
     image: string;
     link: string;
-    isHidden: boolean;
 };

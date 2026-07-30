@@ -4,8 +4,10 @@ import { useGLTF, Stage, PresentationControls } from '@react-three/drei';
 import { CanvasModelContainer } from './CanvasModel.style';
 import useIsMobile from '../../Hooks/useIsMobile';
 
+const MODEL_URL = `${process.env.PUBLIC_URL}/snake_statue.glb`;
+
 function Model(props) {
-    const { scene } = useGLTF('../snake_statue.glb');
+    const { scene } = useGLTF(MODEL_URL);
     const modelRef = useRef({});
     useFrame(() => {
         if (modelRef.current && modelRef.current.rotation) {
@@ -16,12 +18,19 @@ function Model(props) {
     return <primitive ref={modelRef} object={scene} {...props} />;
 }
 
-function CanvasModel() {
+function CanvasModel({ active = true }) {
     const { isMobile } = useIsMobile();
 
     return (
         <CanvasModelContainer style={{ height: `${isMobile ? '55vh' : '90vh'}` }}>
-            <Canvas dpr={2} camera={{ fov: 45, position: [0, 0, 5] }}>
+            <Canvas
+                // Cap at 2x instead of forcing it: on a 1x display `dpr={2}` renders four
+                // times the pixels every frame for no visible gain.
+                dpr={[1, 2]}
+                // Stop the render loop entirely while the model is scrolled off screen.
+                frameloop={active ? 'always' : 'never'}
+                camera={{ fov: 45, position: [0, 0, 5] }}
+            >
                 <PresentationControls speed={1.5} zoom={0} polar={[0, 0]}>
                     <Stage environment={'city'} intensity={0.5}>
                         <Model />
@@ -31,5 +40,7 @@ function CanvasModel() {
         </CanvasModelContainer>
     );
 }
+
+useGLTF.preload(MODEL_URL);
 
 export default CanvasModel;

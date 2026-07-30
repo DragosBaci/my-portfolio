@@ -1,10 +1,16 @@
 import React from 'react';
 import { useScroll, useTransform } from 'framer-motion';
-import mobileBackground from '../../Assets/images/backgroundMobile.jpg';
-import computerBackground from '../../Assets/images/background.jpg';
 import { BackgroundImage } from './Background.style';
 import { backgroundAnimation } from '../../Utils/AnimationValues';
 import useIsMobile from '../../Hooks/useIsMobile';
+
+/*
+ * Served from `public/` rather than imported, so these keep stable URLs that index.html
+ * can preload. Imported through webpack they sit behind the JS bundle in the dependency
+ * graph, and the browser cannot discover the largest contentful paint until React runs.
+ */
+const mobileBackground = `${process.env.PUBLIC_URL}/images/backgroundMobile.jpg`;
+const computerBackground = `${process.env.PUBLIC_URL}/images/background.jpg`;
 
 const Background = () => {
     const { isMobile } = useIsMobile();
@@ -23,6 +29,8 @@ const Background = () => {
             initial="hidden"
             animate="visible"
             alt="background"
+            // Decode off the main thread so the intro animation is not blocked by it.
+            decoding="async"
         />
     );
 };

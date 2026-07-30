@@ -7,18 +7,12 @@ type ConnectionsButtonProps = {
 };
 
 const ConnectionsButton: React.FC<ConnectionsButtonProps> = ({ value, goTo }) => {
-    const handleClick = () => {
-        window.open(goTo);
-    };
-
     return (
-        <>
-            <ButtonContainer onClick={handleClick}>
-                <ButtonInner>
-                    <ButtonInfo data-text={value}>{value}</ButtonInfo>
-                </ButtonInner>
-            </ButtonContainer>
-        </>
+        <ButtonContainer href={goTo} target="_blank" rel="noopener noreferrer">
+            <ButtonInner>
+                <ButtonInfo data-text={value}>{value}</ButtonInfo>
+            </ButtonInner>
+        </ButtonContainer>
     );
 };
 

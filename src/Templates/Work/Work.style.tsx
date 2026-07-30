@@ -1,18 +1,20 @@
 import styled from 'styled-components';
+import { sectionInset } from '../../Utils/Layout';
 
 export const ButtonContainer = styled.div`
-    margin-left: 13.5%;
+    ${sectionInset}
     display: flex;
     flex-direction: row;
     @media (max-width: 767px) {
-        margin-left: 20px;
         flex-direction: column;
     }
 `;
 
 export const WorkTitleButtonContainer = styled.div`
-    margin-left: 13.5%;
+    ${sectionInset}
+
+    /* WorkTitle supplies its own 20px indent on mobile - don't stack a second one. */
     @media (max-width: 767px) {
-        margin-left: 20px;
+        padding-left: 0;
     }
 `;

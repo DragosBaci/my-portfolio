@@ -8,22 +8,13 @@ type BottomNavbarSocialsProps = {
 };
 
 const BottomNavbarSocials: React.FC<BottomNavbarSocialsProps> = ({ title, link, downloadCV }) => {
-    const handleClick = () => {
-        if (downloadCV) {
-            const downloadLink = document.createElement('a');
-            downloadLink.href = '/Dragos Baci.pdf';
-            downloadLink.download = 'Dragos_Baci_CV.pdf';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        } else {
-            window.open(link);
-        }
-    };
+    const anchorProps = downloadCV
+        ? { href: `${process.env.PUBLIC_URL}/Dragos Baci.pdf`, download: 'Dragos_Baci_CV.pdf' }
+        : { href: link, target: '_blank', rel: 'noopener noreferrer' };
 
     return (
-        <BottomNavbarSocialsContainer onClick={handleClick}>
-            <BottomNavbarSocialsTitle>{title}</BottomNavbarSocialsTitle>
+        <BottomNavbarSocialsContainer>
+            <BottomNavbarSocialsTitle {...anchorProps}>{title}</BottomNavbarSocialsTitle>
         </BottomNavbarSocialsContainer>
     );
 };

@@ -14,7 +14,12 @@ const SeeCaseBar = ({ link }) => {
 
     return (
         <>
-            <NavBarContainer variants={seeCaseAnimation} initial="hidden" animate={!isClicked ? 'hidden' : 'visible'}>
+            <NavBarContainer
+                variants={seeCaseAnimation}
+                initial="hidden"
+                animate={!isClicked ? 'hidden' : 'visible'}
+                exit="hidden"
+            >
                 <NavigationBar>
                     <LeftContainer>
                         <NavbarLinkContainer></NavbarLinkContainer>

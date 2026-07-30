@@ -4,12 +4,93 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#131313" />
     <meta
       name="description"
       content="Portfolio website for Dragos Baci, a full stack web developer."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dragos Baci — Creative Software Developer" />
+    <meta
+      property="og:description"
+      content="Portfolio website for Dragos Baci, a full stack web developer."
+    />
+    <meta property="og:url" content="https://dragosbaci.com" />
+    <meta property="og:image" content="https://dragosbaci.com/images/background.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      Critical-path preloads. Fonts and the background image are referenced from inside
+      the JS bundle (CSS-in-JS / webpack imports), so without these hints the browser
+      cannot discover them until React has executed. Font preloads must carry
+      `crossorigin`: font requests use CORS mode even same-origin, and a mismatched
+      preload is thrown away and fetched twice.
+    -->
+    <link rel="preload" as="font" type="font/otf" href="%PUBLIC_URL%/fonts/TuskerGrotesk-2600Semibold.otf" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="%PUBLIC_URL%/fonts/Migra-Extrabold.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="%PUBLIC_URL%/fonts/MigraItalic-ExtraboldItalic.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/otf" href="%PUBLIC_URL%/fonts/NeueMontreal-Medium.otf" crossorigin />
+    <!--
+      The @font-face declarations live here, not in bundled CSS: webpack's css-loader
+      tries to resolve url() paths as modules (public/ files are outside its graph and
+      fail the build), and declaring them in the HTML head means the browser knows about
+      the faces before a single byte of JS has run - matching the preloads above.
+    -->
+    <style>
+      @font-face {
+        font-family: "Tusker-Bold";
+        src: url("%PUBLIC_URL%/fonts/TuskerGrotesk-2600Semibold.otf") format("opentype");
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Migra";
+        src: url("%PUBLIC_URL%/fonts/Migra-Extrabold.woff2") format("woff2"),
+          url("%PUBLIC_URL%/fonts/Migra-Extrabold.woff") format("woff");
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Migra-light";
+        src: url("%PUBLIC_URL%/fonts/MigraItalic-ExtraboldItalic.woff2") format("woff2"),
+          url("%PUBLIC_URL%/fonts/MigraItalic-ExtraboldItalic.woff") format("woff");
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Neue-Montreal";
+        src: url("%PUBLIC_URL%/fonts/NeueMontreal-Medium.otf") format("opentype");
+        font-display: swap;
+      }
+    </style>
+    <!--
+      The background image is the largest contentful paint. `media` makes sure only the
+      variant that will actually be used gets fetched.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="%PUBLIC_URL%/images/background.jpg"
+      media="(min-width: 769px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="%PUBLIC_URL%/images/backgroundMobile.jpg"
+      media="(max-width: 768px)"
+      fetchpriority="high"
+    />
+    <!--
+      Idle-priority prefetches for below-the-fold resources: fetched after load without
+      competing with the critical path, so they are already cached when scrolled to.
+      Deliberately NOT preloads - promoting these would starve the LCP image and fonts.
+      The 3D model is the largest single asset on the site; prefetching it here means
+      the lazy-loaded three.js scene usually finds it already in the HTTP cache.
+    -->
+    <link rel="prefetch" href="%PUBLIC_URL%/images/CarFlow.webp" />
+    <link rel="prefetch" href="%PUBLIC_URL%/images/3ss.webp" />
+    <link rel="prefetch" href="%PUBLIC_URL%/images/microservice.webp" />
+    <link rel="prefetch" href="%PUBLIC_URL%/images/carRepair.webp" />
+    <link rel="prefetch" href="%PUBLIC_URL%/images/oliviu.webp" />
+    <link rel="prefetch" href="%PUBLIC_URL%/snake_statue.glb" as="fetch" crossorigin />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/

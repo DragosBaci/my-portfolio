@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import Background from '../Background/Background';
 import AboutMe from '../AboutMe/AboutMe';
 import Home from '../Home/Home';
@@ -13,6 +14,12 @@ import OrientationNotSupported from '../OrientationNotSupported/OrientationNotSu
 function PageContent() {
     const { isMobile } = useIsMobile();
     const orientation = useOrientation();
+    const { id } = useParams();
+
+    // Ref, not dependency: the intro effect must run exactly once, but the timer needs
+    // to see the id as it is when it fires, not as it was on mount.
+    const openItemRef = useRef(id);
+    openItemRef.current = id;
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -20,9 +27,16 @@ function PageContent() {
         document.body.style.height = '100vh';
 
         const timeoutId = setTimeout(() => {
-            document.body.style.overflowX = 'visible';
             document.body.style.height = 'auto';
+            // With a case modal open (deep link, or opened during the intro), the modal
+            // owns the scroll lock and will release it on close - don't undo it here.
+            if (!openItemRef.current) {
+                // Clear the shorthand rather than only `overflow-x`, otherwise
+                // `overflow-y` stays pinned to `hidden` from the lock above.
+                document.body.style.overflow = '';
+            }
         }, 2500);
+
         return () => clearTimeout(timeoutId);
     }, []);
 

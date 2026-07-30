@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import List from '../../Components/List/List';
@@ -13,8 +13,7 @@ import CustomWhiteButton from '../../Components/CustomWhiteButton/CustomWhiteBut
 export default function Work() {
     const { id } = useParams();
 
-    //@ts-ignore
-    const selectedItem = items.find(card => card.id === parseInt(id, 10));
+    const selectedItem = useMemo(() => items.find(card => card.id === Number(id)), [id]);
 
     return (
         <>
@@ -22,7 +21,9 @@ export default function Work() {
                 <WorkTitle title={'Selected Cases'} subtitle={''} star={true} />
             </WorkTitleButtonContainer>
             <List />
-            <AnimatePresence>{id && <Item id={id} cardData={selectedItem} key="item" />}</AnimatePresence>
+            <AnimatePresence>
+                {selectedItem && <Item cardData={selectedItem} key="item" />}
+            </AnimatePresence>
             <ButtonContainer>
                 <CustomButton value={'CONTACT ME'} email={homeConstants.email} />
                 <CustomWhiteButton value={'SEE OTHER CASES'} hasMargin={true} goTo={'https://github.com/DragosBaci'} />

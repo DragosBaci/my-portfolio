@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
 
 interface IsClickedContextProps {
     isClicked: boolean;
@@ -14,11 +14,11 @@ interface IsClickedProviderProps {
 const IsClickedProvider: React.FC<IsClickedProviderProps> = ({ children }) => {
     const [isClicked, setIsClicked] = useState<boolean>(false);
 
-    const updateIsClicked = (newData: boolean) => {
-        setIsClicked(newData);
-    };
+    // A fresh object here would re-render every consumer on each provider render,
+    // even when `isClicked` has not changed. `setIsClicked` is already stable.
+    const value = useMemo(() => ({ isClicked, updateIsClicked: setIsClicked }), [isClicked]);
 
-    return <IsClickedContext.Provider value={{ isClicked, updateIsClicked }}>{children}</IsClickedContext.Provider>;
+    return <IsClickedContext.Provider value={value}>{children}</IsClickedContext.Provider>;
 };
 
 const useIsClickedContext = (): IsClickedContextProps => {

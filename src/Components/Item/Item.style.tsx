@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import img from '../../Assets/images/modalBackground.jpeg';
 import { Link } from 'react-router-dom';
 
 export const CardContentContainerOpen = styled.div`
@@ -39,7 +38,7 @@ export const CardContent = styled(motion.div)`
     }
 `;
 
-export const CardImageContainer = styled(motion.div)`
+export const CardImageContainer = styled.div`
     filter: brightness(0.7);
     order: 2;
     @media (max-width: 767px) {
@@ -59,7 +58,7 @@ export const CardImage = styled.img`
     }
 `;
 
-export const ContentContainer = styled(motion.div)`
+export const ContentContainer = styled.div`
     color: white;
     text-transform: uppercase;
     justify-content: center;
@@ -99,6 +98,11 @@ export const Subtitle = styled.div`
     }
 `;
 
+/*
+ * A flat colour rather than a `brightness(0.4)`-filtered photo: the old version made
+ * the browser composite a full-viewport filtered image layer on every frame of the
+ * open/close fade, for a backdrop that was almost black anyway.
+ */
 export const Overlay = styled(motion.div)`
     z-index: 1;
     position: fixed;
@@ -107,22 +111,10 @@ export const Overlay = styled(motion.div)`
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    background-image: url(${img});
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: brightness(0.4);
-
-    &a {
-        display: block;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 100vw;
-        left: 50%;
-
-        transform: translateX(-50%);
-    }
+    background-color: #0d0d0d;
+    /* The parent container is pointer-events: none so the panel doesn't swallow scroll;
+       the overlay must opt back in for its close-on-click link to work. */
+    pointer-events: auto;
 `;
 
 export const OverlayLink = styled(Link)`
