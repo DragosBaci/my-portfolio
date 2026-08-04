@@ -18,7 +18,7 @@ export const experienceEntries: ExperienceEntry[] = [
     {
         id: 1,
         role: 'Caseware',
-        period: '04/2026 – Present',
+        period: '2026 – Present',
         context: 'Software Engineer, Financials Squad',
         description:
             'Building AI-assisted, manifest-driven financial reporting workflows in Angular, and owning the squad’s CI/CD pipelines.',
@@ -26,7 +26,7 @@ export const experienceEntries: ExperienceEntry[] = [
     {
         id: 2,
         role: 'JWX Connatix',
-        period: '09/2024 – 04/2026',
+        period: '2024 – 2026',
         context: 'Software Engineer, Monetization Team',
         description:
             'Delivered revenue-critical business logic and integrations for a production video platform, mentored engineers, and used ELK/Tableau to validate platform behavior.',
@@ -34,7 +34,7 @@ export const experienceEntries: ExperienceEntry[] = [
     {
         id: 3,
         role: '3 Screen Solutions',
-        period: '09/2022 – 08/2024',
+        period: '2022 – 2024',
         context: 'Software Engineer',
         description:
             'Built and optimized streaming UI for Toggo, a Netflix-style platform, with React, TypeScript and Redux — content rails, player controls, and search.',
