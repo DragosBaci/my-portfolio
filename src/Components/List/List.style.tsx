@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { theme } from '../../Utils/Colors';
 import { sectionInset } from '../../Utils/Layout';
 
@@ -44,7 +45,8 @@ export const CasesGrid = styled.div`
     @media (max-width: 767px) {
         grid-template-columns: 100%;
         grid-auto-rows: auto;
-        row-gap: 8px;
+        /* Just the images stack here, so this is the entire spacing between cases. */
+        row-gap: 12px;
         padding-right: 20px;
     }
 `;
@@ -52,7 +54,6 @@ export const CasesGrid = styled.div`
 type CellProps = {
     $column: number;
     $row: number;
-    $mobileRow: number;
 };
 
 const GridCell = styled.div<CellProps>`
@@ -74,9 +75,11 @@ const GridCell = styled.div<CellProps>`
         grid-row: auto;
     }
 
+    /* Single column, natural document order - only the images are visible at this size,
+       so they stack in case order without needing explicit row placement. */
     @media (max-width: 767px) {
         grid-column: 1;
-        grid-row: ${({ $mobileRow }) => $mobileRow};
+        grid-row: auto;
         margin: 0;
         min-height: 0;
     }
@@ -97,9 +100,8 @@ export const TextCell = styled(GridCell)<{ $indent?: string }>`
     @media (max-width: 1200px) {
         padding-left: 2vw;
     }
-
     @media (max-width: 767px) {
-        padding: 14px 0 28px;
+        display: none;
     }
 `;
 
@@ -145,11 +147,10 @@ export const ImageInner = styled(motion.div)`
     background-color: ${theme.fontColor};
 `;
 
-export const CaseImage = styled.img`
-    width: 100%;
-    height: 100%;
+/* styled(Image) rather than styled.img: next/image sets its own positioning when using
+   `fill`, and this only layers the hover transform on top of it. */
+export const CaseImage = styled(Image)`
     object-fit: cover;
-    display: block;
     will-change: transform;
     transition: transform 600ms cubic-bezier(0.33, 1, 0.68, 1);
 

@@ -66,7 +66,11 @@ const Item: React.FC<ItemProps> = ({ cardData }) => {
                     <HeroImage
                         src={`/images/${cardData.image}`}
                         alt={`${cardData.title} — ${cardData.subtitle}`}
-                        decoding="async"
+                        fill
+                        /* Full-bleed backdrop, and it's the detail view's LCP - load it
+                           eagerly rather than waiting for an intersection check. */
+                        sizes="100vw"
+                        priority
                     />
                     <HeroScrim />
                 </HeroImageWrap>

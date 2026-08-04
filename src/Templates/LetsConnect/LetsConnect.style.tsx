@@ -120,6 +120,10 @@ export const BottomNavbarSplitter = styled.div`
     gap: 16px;
     padding: 1.5% 2%;
     @media (max-width: 767px) {
+        /* Let the heading and the CONTACT pill drop onto separate lines rather than
+           squeezing each other on a narrow phone. */
+        flex-wrap: wrap;
+        gap: 12px;
         margin-bottom: 5%;
         margin-top: 3%;
     }
@@ -153,6 +157,16 @@ export const BackToTop = styled.button`
 
     &:hover {
         color: ${theme.fontColor};
+    }
+
+    /*
+     * Dropped on mobile. Three items - heading, CONTACT pill and this - do not fit one
+     * flex row at phone width, and this was the one squeezing the button. It is also the
+     * least missed: a phone already has fast scroll-to-top gestures, and the menu links
+     * back to the top of the page.
+     */
+    @media (max-width: 767px) {
+        display: none;
     }
 `;
 

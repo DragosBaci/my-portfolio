@@ -47,7 +47,6 @@ const List: React.FC = () => {
                             subtitle={card.subtitle}
                             column={layout.textColumn}
                             row={row}
-                            mobileRow={index * 2 + 2}
                             indent={layout.textIndent}
                         />
                     );
@@ -60,7 +59,6 @@ const List: React.FC = () => {
                             title={card.title}
                             column={layout.imageColumn}
                             row={row}
-                            mobileRow={index * 2 + 1}
                         />
                     );
 

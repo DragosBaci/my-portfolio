@@ -176,37 +176,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     crossOrigin="anonymous"
                 />
 
-                {/* The background image is the largest contentful paint; `media` fetches
-                    only the variant that will actually be used. */}
-                <link
-                    rel="preload"
-                    as="image"
-                    href="/images/background.jpg"
-                    media="(min-width: 769px)"
-                    fetchPriority="high"
-                />
-                <link
-                    rel="preload"
-                    as="image"
-                    href="/images/backgroundMobile.jpg"
-                    media="(max-width: 768px)"
-                    fetchPriority="high"
-                />
-
                 {/*
-                  Desktop only, deliberately. These are ~3 MB in total (the 3D model
-                  alone is 2.1 MB) and "idle priority" is not free on a throttled mobile
-                  connection - it still competes for the same few hundred kbit/s that the
-                  LCP image needs. On a wide viewport the bandwidth is there and the
-                  assets are warm by the time they scroll into view; on a phone the card
-                  images are lazy-loaded and the model is fetched on demand anyway.
+                  No image preloads or prefetches here any more. next/image requests
+                  optimised derivatives (/_next/image?url=...), which are different URLs
+                  from the raw files in public/ - hinting the originals would download
+                  every one of them a second time and never be used. The background's
+                  `priority` flag makes Next emit the correct preload for the LCP itself.
+
+                  The 3D model isn't an image, so it still benefits from a hint - kept to
+                  wide viewports because it's 2.1 MB and "idle priority" still competes
+                  for bandwidth on a throttled connection.
                 */}
-                <link rel="prefetch" href="/images/forest_fire.png" media="(min-width: 769px)" />
-                <link rel="prefetch" href="/images/3ss.webp" media="(min-width: 769px)" />
-                <link rel="prefetch" href="/images/jwx.webp" media="(min-width: 769px)" />
-                <link rel="prefetch" href="/images/caseware.webp" media="(min-width: 769px)" />
-                <link rel="prefetch" href="/images/CarFlow.webp" media="(min-width: 769px)" />
-                <link rel="prefetch" href="/images/claude-claude-code.gif" media="(min-width: 769px)" />
                 <link
                     rel="prefetch"
                     href="/snake_statue.glb"

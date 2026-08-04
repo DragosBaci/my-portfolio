@@ -52,11 +52,7 @@ function PageShellContent({ caseId }: PageShellProps) {
         if (introHasPlayed) return;
         introHasPlayed = true;
 
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-        document.body.style.overflow = 'hidden';
-        document.body.style.height = '100vh';
-
-        const timeoutId = setTimeout(() => {
+        const releaseScrollLock = () => {
             document.body.style.height = 'auto';
             // With a case modal open (deep link, or opened during the intro), the modal
             // owns the scroll lock and will release it on close - don't undo it here.
@@ -65,9 +61,26 @@ function PageShellContent({ caseId }: PageShellProps) {
                 // `overflow-y` stays pinned to `hidden` from the lock above.
                 document.body.style.overflow = '';
             }
-        }, 2500);
+        };
 
-        return () => clearTimeout(timeoutId);
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        document.body.style.overflow = 'hidden';
+        document.body.style.height = '100vh';
+
+        const timeoutId = setTimeout(releaseScrollLock, 2500);
+
+        return () => {
+            clearTimeout(timeoutId);
+            /*
+             * Release on unmount too, not just on the timer. Clearing the timeout alone
+             * left the page permanently unscrollable: StrictMode double-invokes effects
+             * in development (mount, unmount, mount), so the cleanup destroyed the only
+             * timer that would have unlocked scrolling - and the guard above then made
+             * the second mount skip re-arming it. The same trap springs in production if
+             * the shell unmounts within 2.5s, e.g. opening a case straight away.
+             */
+            releaseScrollLock();
+        };
     }, []);
 
     if (orientation === 'landscape-primary' && isMobile) {

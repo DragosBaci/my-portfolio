@@ -9,9 +9,10 @@ import { SITE_URL } from '@/Utils/Site';
 type CaseParams = { params: { id: string } };
 
 /*
- * `output: 'export'` has no server to resolve dynamic segments at request time, so every
- * case route has to be enumerated at build time. Each one is written out as a real HTML
- * file, which is what makes a shared link to /3/ load with content already in it.
+ * Enumerating the cases lets Next prerender each one to static HTML at build time, so a
+ * shared link to /3 arrives with that case's content already in the document rather than
+ * waiting on the client. The data is local and never changes between requests, so there
+ * is nothing to gain from rendering these on demand.
  */
 export function generateStaticParams() {
     return items.map(item => ({ id: String(item.id) }));

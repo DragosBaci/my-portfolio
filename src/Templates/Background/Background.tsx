@@ -1,15 +1,16 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useScroll, useTransform } from 'framer-motion';
-import { BackgroundImage } from './Background.style';
+import { BackgroundFrame } from './Background.style';
 import { backgroundAnimation } from '../../Utils/AnimationValues';
 import useIsMobile from '../../Hooks/useIsMobile';
 
 /*
- * Served from `public/` rather than imported, so these keep stable URLs that index.html
- * can preload. Imported through webpack they sit behind the JS bundle in the dependency
- * graph, and the browser cannot discover the largest contentful paint until React runs.
+ * Paths into public/ rather than webpack imports, so the optimiser is handed a stable
+ * URL. next/image serves AVIF/WebP derivatives sized to the requesting device, which is
+ * what turns these two large JPEGs into something a phone can afford.
  */
 const mobileBackground = '/images/backgroundMobile.jpg';
 const computerBackground = '/images/background.jpg';
@@ -21,8 +22,7 @@ const Background = () => {
     const backgroundMovement = useTransform(scrollYProgress, [0, 0.3, 0.7], ['0vh', '-30vh', '0vh']);
 
     return (
-        <BackgroundImage
-            src={isMobile ? mobileBackground : computerBackground}
+        <BackgroundFrame
             style={{
                 opacity: backgroundOpacity,
                 marginTop: !isMobile ? backgroundMovement : 0,
@@ -30,11 +30,22 @@ const Background = () => {
             variants={backgroundAnimation}
             initial="hidden"
             animate="visible"
-            alt=""
             aria-hidden="true"
-            // Decode off the main thread so the intro animation is not blocked by it.
-            decoding="async"
-        />
+        >
+            <Image
+                src={isMobile ? mobileBackground : computerBackground}
+                alt=""
+                fill
+                /* This is the largest contentful paint: opt out of lazy loading and let
+                   Next emit a high-priority preload for it, replacing the hand-written
+                   <link rel="preload"> pair in the layout. */
+                priority
+                /* Always full-bleed, so the optimiser can pick a width from the viewport
+                   alone rather than assuming the 100vw default at every breakpoint. */
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+            />
+        </BackgroundFrame>
     );
 };
 

@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { theme } from '../../Utils/Colors';
 
 /*
@@ -50,11 +51,8 @@ export const HeroImageWrap = styled(motion.div)`
     inset: 0;
 `;
 
-export const HeroImage = styled.img`
-    width: 100%;
-    height: 100%;
+export const HeroImage = styled(Image)`
     object-fit: cover;
-    display: block;
     filter: brightness(0.55);
 `;
 

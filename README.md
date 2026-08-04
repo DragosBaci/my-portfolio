@@ -18,7 +18,7 @@
 
 ## What this is
 
-A single-page portfolio, statically exported to plain HTML. Six sections — hero, about, an
+A single-page portfolio, prerendered to static HTML at build time. Six sections — hero, about, an
 experience timeline, five selected cases, an AI-practice section, and contact — stitched
 together with scroll-linked motion and a deliberately loud type system.
 
@@ -29,12 +29,12 @@ project arrives with that project's content already in the HTML.
 
 | Concern | Choice | Why |
 | --- | --- | --- |
-| Framework | **Next.js 14** (App Router, `output: 'export'`) | Static HTML at build time — real content for crawlers, no server to run |
+| Framework | **Next.js 14** (App Router) | Pages prerender to static HTML — real content for crawlers, no client-side round trip |
 | Language | **TypeScript** | |
 | Styling | **styled-components 6** + SSR registry | Colocated styles; the registry keeps CSS in the exported document |
 | Motion | **Framer Motion 10** | Scroll-linked reveals, shared orchestration, `reducedMotion` support |
 | 3D | **react-three-fiber + drei** | The statue in the About section |
-| Hosting | **GitHub Pages** via `gh-pages` | Static export needs nothing more |
+| Hosting | **Vercel** (deploys on push to `main`) | |
 
 ## Getting started
 
@@ -46,9 +46,10 @@ npm run dev          # http://localhost:3000
 | Script | What it does |
 | --- | --- |
 | `npm run dev` | Dev server with hot reload |
-| `npm run build` | Static export to `out/` — real `.html` per route |
+| `npm run build` | Production build — every route prerendered to static HTML |
 | `npm run lint` | ESLint via `eslint-config-next` |
-| `npm run deploy` | Builds, then publishes `out/` to GitHub Pages |
+
+Deployment is automatic: Vercel builds and publishes on every push to `main`.
 
 ## Structure
 
@@ -76,13 +77,13 @@ Content lives in plain data modules — `src/Components/List/data.ts` for cases,
 The parts that were more interesting than they look.
 
 <details>
-<summary><b>Static export for SEO, not for speed</b></summary>
+<summary><b>Server rendering for SEO, not for speed</b></summary>
 
 The site began as a client-rendered CRA app: the served HTML was an empty
 `<div id="root">`. Google executes JavaScript, but most other crawlers don't, and the
 content only existed after ~500 KB of JS had parsed.
 
-Migrating to Next's `output: 'export'` writes a real HTML file per route at build time.
+Migrating to Next's App Router prerenders a real HTML document per route at build time.
 The case routes take their `id` as a **prop from the server component** rather than
 reading the client router, which guarantees the open case is baked into the exported
 markup instead of depending on the router having resolved during prerender.
@@ -124,8 +125,9 @@ the layer.
 mobile connection it still competes for the same few hundred kbit/s the LCP image needs —
 and the 3D model alone is 2.1 MB.
 
-All prefetches are now gated behind `media="(min-width: 769px)"`. Desktop keeps warm
-caches; phones don't pay for assets they may never scroll to.
+The image hints are gone entirely: `next/image` serves optimised derivatives from
+`/_next/image?…`, so preloading the raw file in `public/` downloads a second copy that is
+never used. Only the 3D model keeps a hint, gated behind `media="(min-width: 769px)"`.
 
 </details>
 

@@ -45,17 +45,15 @@ export const items: CardType[] = [
         imageHeight: 428,
         link: 'https://www.caseware.com/',
     },
-    // PLACEHOLDER - fills the fifth row of the grid pattern. Swap the copy, the link
-    // and `image` (currently reusing CarFlow.webp) for a real case when you have one.
     {
         id: 5,
-        title: 'Portfolio',
-        subtitle: 'UX/UI Design, Development',
+        title: 'Gym Management',
+        subtitle: 'Personal Project, Development',
         description:
-            'This site. Built with React, TypeScript and styled-components, with a WebGL statue rendered through react-three-fiber and motion driven by framer-motion.',
-        image: 'CarFlow.webp',
-        imageWidth: 2560,
-        imageHeight: 1576,
+            'A personal project built before AI coding tools, written end to end by hand. Members subscribe through an integrated payment processor and check in via geolocation auth that only unlocks inside the gym, while staff get an admin dashboard for memberships, attendance and revenue.',
+        image: 'gym_management.jpg',
+        imageWidth: 1920,
+        imageHeight: 1469,
         link: 'https://github.com/DragosBaci',
     },
 ];

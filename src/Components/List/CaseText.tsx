@@ -10,11 +10,10 @@ type CaseTextProps = {
     subtitle: string;
     column: number;
     row: number;
-    mobileRow: number;
     indent?: string;
 };
 
-const CaseText: React.FC<CaseTextProps> = ({ title, subtitle, column, row, mobileRow, indent }) => {
+const CaseText: React.FC<CaseTextProps> = ({ title, subtitle, column, row, indent }) => {
     /*
      * The observer has to sit on the cell, not on the title. The title starts translated
      * a full line below its `overflow: hidden` clip, and IntersectionObserver intersects
@@ -25,7 +24,7 @@ const CaseText: React.FC<CaseTextProps> = ({ title, subtitle, column, row, mobil
     const revealState = hasEnteredViewport ? 'visible' : 'hidden';
 
     return (
-        <TextCell ref={ref} $column={column} $row={row} $mobileRow={mobileRow} $indent={indent}>
+        <TextCell ref={ref} $column={column} $row={row} $indent={indent}>
             <TitleClip>
                 <CaseTitle variants={caseTitleReveal} initial="hidden" animate={revealState}>
                     {title}
