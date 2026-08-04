@@ -74,6 +74,21 @@ html {
 }
 
 /*
+ * `overflow-x: hidden` is what stops the wide sections bleeding sideways, but on html and
+ * body it does it by turning each into a scroll container - and a mobile browser only
+ * gives its cheap, compositor-driven momentum scrolling to the root scroller. Nested
+ * containers fall back to a main-thread path, which is the judder you feel on a phone.
+ * `clip` clips identically without ever becoming a scroller. Layered behind @supports so
+ * pre-16 Safari keeps the `hidden` behaviour rather than losing the clip entirely.
+ */
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
+/*
  * Thin themed scrollbar instead of none at all: on a long single-page site, hiding it
  * completely removes the only always-available sense of where you are on the page.
  */

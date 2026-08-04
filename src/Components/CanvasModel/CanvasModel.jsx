@@ -28,7 +28,12 @@ function CanvasModel({ active = true }) {
             <Canvas
                 // Cap at 2x instead of forcing it: on a 1x display `dpr={2}` renders four
                 // times the pixels every frame for no visible gain.
-                dpr={[1, 2]}
+                //
+                // Pinned to 1x on phones. The loop runs on rAF on the main thread, the
+                // same thread that has to keep up with the touch scroll, and a 3x device
+                // pixel ratio means ~4x the fragment work per frame of this statue - the
+                // one thing on the page heavy enough to drop scroll frames on its own.
+                dpr={isMobile ? 1 : [1, 2]}
                 // Stop the render loop entirely while the model is scrolled off screen.
                 frameloop={active ? 'always' : 'never'}
                 camera={{ fov: 45, position: [0, 0, 5] }}

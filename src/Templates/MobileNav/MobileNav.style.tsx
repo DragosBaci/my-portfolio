@@ -23,8 +23,13 @@ export const MenuButton = styled.button`
     padding: 0;
     border: none;
     border-radius: 50%;
-    background: rgba(19, 19, 19, 0.55);
-    backdrop-filter: blur(8px);
+    /*
+     * Opaque enough to read on its own instead of blurring what is behind it. This button
+     * is fixed, always on screen, and mobile-only, so a backdrop-filter here meant the
+     * compositor re-sampling and re-blurring the page behind it on every scroll frame -
+     * the one place on the site where that cost is paid continuously.
+     */
+    background: rgba(19, 19, 19, 0.78);
     cursor: pointer;
 `;
 

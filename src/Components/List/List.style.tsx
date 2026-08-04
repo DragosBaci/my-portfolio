@@ -151,10 +151,15 @@ export const ImageInner = styled(motion.div)`
    `fill`, and this only layers the hover transform on top of it. */
 export const CaseImage = styled(Image)`
     object-fit: cover;
-    will-change: transform;
-    transition: transform 600ms cubic-bezier(0.33, 1, 0.68, 1);
 
+    /* Both the hint and the transition belong to the hover zoom, so they are scoped to
+       where hover exists. Unscoped, will-change held every case image on its own
+       compositor layer on phones too - five full-width layers of GPU memory reserved for
+       a transform that can never fire there, competing with the scroll. */
     @media (min-width: 768px) {
+        will-change: transform;
+        transition: transform 600ms cubic-bezier(0.33, 1, 0.68, 1);
+
         ${ImageClip}:hover & {
             transform: scale(1.06);
         }
