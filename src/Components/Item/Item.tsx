@@ -17,6 +17,7 @@ import {
     TitleClip,
 } from './Item.style';
 import { useIsClickedContext } from '../../Context/IsClickedContext';
+import { getLenis } from '../SmoothScroll/SmoothScroll';
 import SeeCaseBar from '../SeeCaseBar/SeeCaseBar';
 import { CardType } from '../../Utils/Types';
 import { items } from '../List/data';
@@ -41,9 +42,13 @@ const Item: React.FC<ItemProps> = ({ cardData }) => {
      */
     useEffect(() => {
         document.body.style.overflow = 'hidden';
+        // Overflow alone doesn't stop Lenis's wheel handling - pause the animation too,
+        // or input buffered while the case is open lurches the page shut behind it.
+        getLenis()?.stop();
         updateIsClicked(true);
         return () => {
             document.body.style.overflow = '';
+            getLenis()?.start();
             updateIsClicked(false);
         };
     }, [updateIsClicked]);

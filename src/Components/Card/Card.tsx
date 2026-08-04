@@ -6,6 +6,15 @@ import { CaseImage, ImageCell, ImageClip, ImageInner } from '../List/List.style'
 import useInViewport from '../../Hooks/useInViewport';
 import { caseImageReveal } from '../../Utils/AnimationValues';
 
+/*
+ * Cards span roughly a third of the viewport in the three-column grid, half at the
+ * tablet breakpoint, full width stacked. Without this the optimiser assumes 100vw and
+ * ships a needlessly large derivative to every card. Exported because the intro-time
+ * prefetch (Utils/prefetchAssets) must describe the images identically - a different
+ * sizes string would warm the wrong derivative and the real render would fetch again.
+ */
+export const CASE_IMAGE_SIZES = '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw';
+
 type CardProps = {
     id: number;
     image: string;
@@ -34,11 +43,7 @@ const Card: React.FC<CardProps> = ({ id, image, title, column, row }) => {
                         src={`/images/${image}`}
                         alt={`${title} — project preview`}
                         fill
-                        /* Cards span roughly a third of the viewport in the three-column
-                           grid, half at the tablet breakpoint, full width stacked. Without
-                           this the optimiser assumes 100vw and ships a needlessly large
-                           derivative to every card. */
-                        sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes={CASE_IMAGE_SIZES}
                     />
                 </ImageInner>
                 {/* Absolute, not relative: from `/1` a relative `2` resolves to `/1/2`. */}
