@@ -13,6 +13,9 @@ export const BackgroundFrame = styled(motion.div)`
     height: 150vh;
     z-index: -10;
     position: fixed;
+    /* Pinned explicitly: fixed with top auto only borrows the static position, which
+       any layout change above this element in the tree can quietly move. */
+    top: 0;
     overflow: hidden;
     transform: translateY(-20vh);
     /* Scroll drives this element's opacity, so tell the compositor up front and let it
@@ -41,6 +44,23 @@ export const BackgroundFrame = styled(motion.div)`
      */
     @media (max-width: 768px) {
         height: 100vh;
+        /* Large-viewport height where supported: 100vh can resolve against the layout
+           viewport with the browser chrome visible, so once the URL bar collapses
+           mid-scroll the frame comes up short of the screen - which is exactly when the
+           background fades back in at the bottom of the page. lvh is defined as the
+           chrome-collapsed size, so the frame always covers the tallest the viewport
+           can become; the overshoot while the bar is visible just clips harmlessly. */
+        height: 100lvh;
         transform: none;
     }
+`;
+
+/*
+ * The mobile fade layer. The frame can't animate this itself - it already owns the
+ * intro variants and the desktop scroll scrub, and a second writer to the same
+ * element's opacity would silently win over both.
+ */
+export const BackgroundFade = styled(motion.div)`
+    position: absolute;
+    inset: 0;
 `;
