@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { theme } from '../../Utils/Colors';
@@ -120,6 +122,51 @@ export const ImageClip = styled.div`
     /* Keeps the open-link's z-index local to the card, so it can never rise above the
        case modal and stay clickable behind it. */
     isolation: isolate;
+
+    /* Focus through contrast: hovering anywhere in the grid dims every case except the
+       one under the cursor. Pure CSS - no JS hover state to keep in sync. */
+    @media (min-width: 768px) {
+        transition: opacity 400ms cubic-bezier(0.33, 1, 0.68, 1);
+
+        ${CasesGrid}:hover & {
+            opacity: 0.4;
+        }
+
+        ${CasesGrid}:hover &:hover {
+            opacity: 1;
+        }
+    }
+`;
+
+/*
+ * The cursor-following "view" pill. Driven by motion values rather than React state:
+ * a setState per mousemove would re-render the card on every pointer event (the same
+ * mistake that made the old Connections marquee expensive).
+ */
+export const ViewPill = styled(motion.div)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: ${theme.fontColor};
+    color: ${theme.mainSurface};
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    will-change: transform;
+
+    /* No cursor to follow on touch devices. */
+    @media (max-width: 767px) {
+        display: none;
+    }
 `;
 
 export const ImageInner = styled(motion.div)`

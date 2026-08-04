@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ButtonContainer, ButtonInfo, ButtonInner } from './CustomButton.style';
 

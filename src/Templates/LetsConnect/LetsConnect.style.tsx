@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { theme } from '../../Utils/Colors';
@@ -107,13 +109,16 @@ export const BottomNavbarContainer = styled.div`
     }
 `;
 
+/* Symmetrical inset via border-box, so the row's right edge lands at 98% - level with
+   the rule underneath (3% + 95%) - instead of running to the viewport edge. */
 export const BottomNavbarSplitter = styled.div`
+    box-sizing: border-box;
     height: 50%;
-    width: 98%;
+    width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 2%;
-    padding-bottom: 1%;
+    gap: 16px;
+    padding: 1.5% 2%;
     @media (max-width: 767px) {
         margin-bottom: 5%;
         margin-top: 3%;
@@ -130,7 +135,30 @@ export const BottomNavbarBorderBottom = styled.div`
     margin-left: 3%;
 `;
 
-export const BottomNavbarTitle = styled.h1`
+/* Sits on the CONTACT row rather than a line of its own; margin-left: auto pushes it
+   to the far right of that flex row, opposite the heading. */
+export const BackToTop = styled.button`
+    margin-left: auto;
+    font-family: Neue-Montreal, serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: ${theme.fontColor}99;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 300ms ease;
+
+    &:hover {
+        color: ${theme.fontColor};
+    }
+`;
+
+/* p, not h1: a call to action, not a document heading - and the page's single h1 is
+   the hero headline. */
+export const BottomNavbarTitle = styled.p`
     font-size: 2rem;
     font-family: 'Neue-Montreal', serif;
     margin: 0;
@@ -138,10 +166,12 @@ export const BottomNavbarTitle = styled.h1`
     vertical-align: middle;
     padding-left: 1%;
     color: ${theme.fontColor};
-    padding-right: 5%;
+    /* Spacing to the CONTACT button comes from the row's gap now. */
+    padding-right: 1%;
     text-transform: uppercase;
     @media (max-width: 767px) {
-        font-size: 1 rem;
+        /* Was "1 rem" - the space made it invalid, so mobile silently kept 2rem. */
+        font-size: 1rem;
         width: 40%;
     }
 `;

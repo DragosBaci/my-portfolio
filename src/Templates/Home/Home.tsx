@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
 import homeConstants from './homeConstants';
-import { DetailsText, HomeContainer, SplitContainerItems, SubTitle, Title } from './Home.style';
+import { DetailsText, HomeContainer, SplitContainerItems, SubTitle, Title, TitleHeading } from './Home.style';
 import { titleAnimation } from '../../Utils/AnimationValues';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 
@@ -9,12 +11,14 @@ const Home: React.FC = () => {
         <HomeContainer>
             <SplitContainerItems>
                 <SubTitle>{homeConstants.subtitle}</SubTitle>
-                <Title variants={titleAnimation} initial="hidden" animate="visible">
-                    {homeConstants.title1}
-                </Title>
-                <Title variants={titleAnimation} initial="hidden" animate="visible">
-                    {homeConstants.title2}
-                </Title>
+                <TitleHeading>
+                    <Title variants={titleAnimation} initial="hidden" animate="visible">
+                        {homeConstants.title1}
+                    </Title>
+                    <Title variants={titleAnimation} initial="hidden" animate="visible">
+                        {homeConstants.title2}
+                    </Title>
+                </TitleHeading>
             </SplitContainerItems>
             <SplitContainerItems>
                 <DetailsText variants={titleAnimation} initial="hidden" animate="visible">

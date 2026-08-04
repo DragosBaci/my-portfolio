@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef } from 'react';
 import { useScroll } from 'framer-motion';
 import {
@@ -24,7 +26,7 @@ const Experience: React.FC = () => {
     return (
         <ExperienceContainer id="experience">
             <TimelineHeader>
-                <WorkTitle title={'Professional Experience'} subtitle={''} star={true} />
+                <WorkTitle title={'Professional Experience'} star={true} />
             </TimelineHeader>
             <TimelineList ref={listRef}>
                 <TimelineTrack />

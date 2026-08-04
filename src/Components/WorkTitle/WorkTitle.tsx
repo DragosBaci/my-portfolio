@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
 import { WorkTitleContainer, WorkTitleImage, WorkTitleSubtitle, WorkTitleTitle } from './WorkTitle.style';
 import { useScroll, useTransform } from 'framer-motion';
 
 type WorkTitleProps = {
     title: string;
-    subtitle: string;
+    subtitle?: string;
     star: boolean;
 };
 
@@ -22,7 +24,7 @@ const WorkTitle = ({ title, subtitle, star }: WorkTitleProps) => {
                 />
             )}
             <WorkTitleTitle>{title}</WorkTitleTitle>
-            <WorkTitleSubtitle>{subtitle}</WorkTitleSubtitle>
+            {subtitle && <WorkTitleSubtitle>{subtitle}</WorkTitleSubtitle>}
         </WorkTitleContainer>
     );
 };

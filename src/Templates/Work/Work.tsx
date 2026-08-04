@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import List from '../../Components/List/List';
 import Item from '../../Components/Item/Item';
 import { items } from '../../Components/List/data';
@@ -18,7 +20,7 @@ export default function Work() {
     return (
         <>
             <WorkTitleButtonContainer id="work">
-                <WorkTitle title={'Selected Cases'} subtitle={''} star={true} />
+                <WorkTitle title={'Selected Cases'} star={true} />
             </WorkTitleButtonContainer>
             <List />
             <AnimatePresence>

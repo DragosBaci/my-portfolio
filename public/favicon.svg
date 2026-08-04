@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#131313"/>
+  <!-- Twelve-point star, matching the accent mark used across the site's sections. -->
+  <path fill="#f5eee6" d="M32 4l3.9 14.5L46.6 8.1l-4.2 14.4 14.4-4.2L46.3 28.7 60.8 32.6 46.3 36.5l10.5 10.4-14.4-4.2 4.2 14.4L35.9 46.7 32 61.2 28.1 46.7 17.7 57.1l4.2-14.4L7.5 46.9 18 36.5 3.5 32.6 18 28.7 7.5 18.3l14.4 4.2-4.2-14.4 10.4 10.4z"/>
+</svg>

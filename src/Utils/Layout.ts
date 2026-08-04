@@ -16,3 +16,18 @@ export const sectionInset = css`
         padding-left: 20px;
     }
 `;
+
+/**
+ * Vertical rhythm tokens. Section spacing used to be tuned per-section in isolation
+ * (a 50vh margin here, a 6vw padding there), which is why the page read as assembled
+ * rather than composed. New spacing should come from these.
+ *
+ * `sectionGap` is the standard beat between two sections.
+ */
+export const sectionGap = css`
+    margin-bottom: 22vh;
+
+    @media (max-width: 767px) {
+        margin-bottom: 96px;
+    }
+`;

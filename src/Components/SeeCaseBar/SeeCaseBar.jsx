@@ -1,4 +1,7 @@
+'use client';
+
 import {
+    BarLabel,
     LeftContainer,
     NavBarContainer,
     NavbarLink,
@@ -9,7 +12,7 @@ import {
 import { useIsClickedContext } from '../../Context/IsClickedContext';
 import { seeCaseAnimation } from '../../Utils/AnimationValues';
 
-const SeeCaseBar = ({ link }) => {
+const SeeCaseBar = ({ link, label }) => {
     const { isClicked } = useIsClickedContext();
 
     return (
@@ -22,7 +25,7 @@ const SeeCaseBar = ({ link }) => {
             >
                 <NavigationBar>
                     <LeftContainer>
-                        <NavbarLinkContainer></NavbarLinkContainer>
+                        <NavbarLinkContainer>{label && <BarLabel>{label}</BarLabel>}</NavbarLinkContainer>
                     </LeftContainer>
                     <RightContainer>
                         <NavbarLinkContainer>

@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import { theme } from '../../Utils/Colors';
 import img from '../../Assets/images/star.png';
@@ -19,7 +21,7 @@ export const WorkTitleContainer = styled.div`
 `;
 
 export const WorkTitleImage = styled(motion.div)`
-    background-image: url(${img});
+    background-image: url(${img.src});
     background-size: cover;
     background-position: center;
     width: 50px;
@@ -30,7 +32,9 @@ export const WorkTitleImage = styled(motion.div)`
     }
 `;
 
-export const WorkTitleTitle = styled.h1`
+/* h2, not h1: this is a section label used several times per page, and the single h1
+   belongs to the hero headline. */
+export const WorkTitleTitle = styled.h2`
     font-size: 2rem;
     font-family: 'Neue-Montreal', serif;
     margin: 0;
@@ -44,7 +48,9 @@ export const WorkTitleTitle = styled.h1`
     }
 `;
 
-export const WorkTitleSubtitle = styled.h2`
+/* A span, not a heading: it sits beside the section label rather than introducing its
+   own subsection, and every current caller leaves it empty. */
+export const WorkTitleSubtitle = styled.span`
     font-size: 1.5rem;
     font-family: 'Migra';
     margin: 0;

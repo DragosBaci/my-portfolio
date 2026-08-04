@@ -1,113 +1,16 @@
+'use client';
+
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-
-export const CardContentContainerOpen = styled.div`
-    top: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
-    z-index: 1;
-    overflow: hidden;
-    padding: 40px 0;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    margin-left: 0;
-    @media (max-width: 767px) {
-        padding: 0;
-    }
-`;
-
-export const CardContent = styled(motion.div)`
-    overflow: hidden;
-    margin: 0 auto;
-    pointer-events: none;
-    max-width: 80%;
-    max-height: 40%;
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
-    @media (max-width: 767px) {
-        max-height: 100%;
-        max-width: 100%;
-        grid-template-columns: repeat(1, 100%);
-        grid-template-rows: repeat(2, 45%);
-    }
-`;
-
-export const CardImageContainer = styled.div`
-    filter: brightness(0.7);
-    order: 2;
-    @media (max-width: 767px) {
-        margin-top: 10%;
-        height: 120%;
-    }
-`;
-
-export const CardImage = styled.img`
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    grid-column: 2;
-    @media (max-width: 767px) {
-        margin-top: 10%;
-        height: 80%;
-    }
-`;
-
-export const ContentContainer = styled.div`
-    color: white;
-    text-transform: uppercase;
-    justify-content: center;
-    align-items: center;
-    padding-left: 10%;
-    display: flex;
-    padding-bottom: 10%;
-    @media (max-width: 767px) {
-        padding-left: 5%;
-    }
-`;
-
-export const ContentTitleContainer = styled.div``;
-
-export const ContentTitle = styled.div`
-    font-size: 7.875rem;
-    font-family: Tusker-Bold;
-    color: white;
-    text-transform: uppercase;
-    height: 9.5rem;
-    @media (max-width: 1024px) {
-        font-size: 6rem;
-        height: 7rem;
-    }
-`;
-
-export const Subtitle = styled.div`
-    font-size: 1.2vw;
-    font-family: Neue-Montreal;
-    color: white;
-    font-weight: normal;
-    @media (max-width: 1024px) {
-        font-size: 1vw;
-    }
-    @media (max-width: 767px) {
-        font-size: 1rem;
-    }
-`;
+import Link from 'next/link';
+import { theme } from '../../Utils/Colors';
 
 /*
- * Paints its own dimmed copy of the site background image, rather than trying to let
- * the real `<Background />` show through via transparency: that was the previous
- * attempt, and it broke because the Selected Cases grid sits in the stacking order
- * between this overlay and Background (z-index: -10, far behind) - a translucent
- * overlay reveals *everything* underneath it, not just the intended layer, so the grid
- * ghosted through along with the fresco. Painting the image here directly, fully
- * opaque, blocks the grid entirely and gives the same darkened-backdrop look as the
- * reference site's case detail view. Same URL Background.tsx already uses, so this is
- * a cache hit, not a second download.
+ * The detail view is a full-bleed poster: the project image IS the page, with the
+ * title stamped over it and metadata pinned to the corners. Nothing floats in the
+ * middle of empty space - every element anchors to an edge, which is what the two
+ * previous box-based layouts lacked. The overlay behind it doubles as the
+ * click-anywhere-to-close catcher (the poster itself is pointer-events: none).
  */
 export const Overlay = styled(motion.div)`
     z-index: 1;
@@ -117,18 +20,7 @@ export const Overlay = styled(motion.div)`
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    background:
-        linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.72)),
-        url('/images/background.jpg') center / cover no-repeat;
-
-    @media (max-width: 768px) {
-        background:
-            linear-gradient(rgba(13, 13, 13, 0.72), rgba(13, 13, 13, 0.72)),
-            url('/images/backgroundMobile.jpg') center / cover no-repeat;
-    }
-
-    /* The parent container is pointer-events: none so the panel doesn't swallow scroll;
-       the overlay must opt back in for its close-on-click link to work. */
+    background-color: #0d0d0d;
     pointer-events: auto;
 `;
 
@@ -141,4 +33,126 @@ export const OverlayLink = styled(Link)`
     left: 50%;
 
     transform: translateX(-50%);
+`;
+
+export const DetailStage = styled(motion.div)`
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+`;
+
+/* Full-viewport backdrop image. Dimmed twice over: brightness on the image itself and
+   a bottom-heavy gradient scrim, so the cream title stays legible over any photo. */
+export const HeroImageWrap = styled(motion.div)`
+    position: absolute;
+    inset: 0;
+`;
+
+export const HeroImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.55);
+`;
+
+export const HeroScrim = styled.div`
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13, 13, 13, 0.45) 0%, rgba(13, 13, 13, 0.05) 35%, rgba(13, 13, 13, 0.82) 100%);
+`;
+
+/* Index pinned top-left, e.g. "01 / 05" - Migra-light, the site's italic accent face. */
+export const CaseIndex = styled(motion.p)`
+    position: absolute;
+    top: 10vh;
+    left: 6vw;
+    font-family: Migra-light, serif;
+    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+    color: ${theme.secondaryFontColor};
+    margin: 0;
+
+    @media (max-width: 767px) {
+        top: 24px;
+        left: 20px;
+    }
+`;
+
+/* Close affordance top-right. Purely a hint - the whole screen closes on click. */
+export const CloseHint = styled(motion.p)`
+    position: absolute;
+    top: 10vh;
+    right: 6vw;
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: ${theme.fontColor}99;
+    margin: 0;
+
+    @media (max-width: 767px) {
+        top: 24px;
+        right: 20px;
+    }
+`;
+
+/* Title and description anchor to the bottom edge, above the SeeCaseBar (height 7%),
+   title left and description right on desktop - Swiss-style opposed alignment. */
+export const BottomBlock = styled.div`
+    position: absolute;
+    left: 6vw;
+    right: 6vw;
+    bottom: 13vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 4vw;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 12vh;
+    }
+`;
+
+export const TitleBlock = styled.div`
+    min-width: 0;
+`;
+
+export const TitleClip = styled.div`
+    overflow: hidden;
+    padding-bottom: 0.08em;
+`;
+
+export const DetailTitle = styled(motion.h2)`
+    font-family: Tusker-Bold, serif;
+    font-size: clamp(3rem, 9vw, 9.5rem);
+    /* Not below 1: the clip above crops anything outside the line box, and Tusker's
+       caps overshoot a line box tighter than the font's own leading - the same crop
+       bug fixed on the grid's CaseTitle earlier. */
+    line-height: 1.08;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: ${theme.fontColor};
+    margin: 0;
+`;
+
+/* Sentence case, narrow measure, right-anchored on desktop. */
+export const DetailDescription = styled(motion.p)`
+    font-family: Neue-Montreal, serif;
+    font-size: clamp(0.9rem, 1.05vw, 1.15rem);
+    line-height: 1.6;
+    color: ${theme.fontColor}dd;
+    max-width: 36ch;
+    margin: 0;
+    flex-shrink: 0;
+
+    @media (max-width: 900px) {
+        max-width: 52ch;
+    }
 `;

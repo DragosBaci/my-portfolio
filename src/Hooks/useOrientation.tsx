@@ -1,15 +1,21 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
 const getOrientationType = () => window.screen?.orientation?.type;
 
+/**
+ * Starts undefined rather than reading `window.screen` during render - that first render
+ * also runs on the server at build time. The effect fills it in on mount.
+ */
 const useScreenOrientation = () => {
-    const [orientation, setOrientation] = useState(getOrientationType);
+    const [orientation, setOrientation] = useState<OrientationType | undefined>(undefined);
 
     useEffect(() => {
         const screenOrientation = window.screen?.orientation;
         const handleChange = () => setOrientation(getOrientationType());
 
-        // Re-sync in case the device rotated between render and effect.
+        // Sync to the real device orientation now that we're in the browser.
         handleChange();
 
         // The Screen Orientation API is the accurate source; the deprecated window

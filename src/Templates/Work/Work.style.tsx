@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import { sectionInset } from '../../Utils/Layout';
 
@@ -5,8 +7,11 @@ export const ButtonContainer = styled.div`
     ${sectionInset}
     display: flex;
     flex-direction: row;
+    /* Breathing room between Work's closing buttons and the Let's Connect section. */
+    margin-bottom: 20vh;
     @media (max-width: 767px) {
         flex-direction: column;
+        margin-bottom: 64px;
     }
 `;
 

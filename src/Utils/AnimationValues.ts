@@ -76,7 +76,9 @@ export const seeCaseAnimation = {
 /**
  * Opening a case animates opacity and transform only - both run on the compositor,
  * so nothing here forces layout or paint. Closing is deliberately quicker than
- * opening: a slow dismiss reads as unresponsive.
+ * opening: a slow dismiss reads as unresponsive. This one variant drives both the
+ * overlay and the detail stage; the stage's children (title/description/image)
+ * inherit its hidden/visible states and resolve them against their own reveals.
  */
 export const caseEase: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
 
@@ -87,19 +89,6 @@ export const caseOverlayAnimation: Variants = {
     },
     visible: {
         opacity: 1,
-        transition: { duration: 0.35, ease: caseEase },
-    },
-};
-
-export const casePanelAnimation: Variants = {
-    hidden: {
-        opacity: 0,
-        y: 24,
-        transition: { duration: 0.2, ease: caseEase },
-    },
-    visible: {
-        opacity: 1,
-        y: 0,
         transition: { duration: 0.35, ease: caseEase },
     },
 };
@@ -131,6 +120,42 @@ export const caseSubtitleReveal: Variants = {
         opacity: 1,
         y: 0,
         transition: { duration: 0.6, delay: 0.15, ease: caseEase },
+    },
+};
+
+/* Mobile menu: overlay fades, links wipe up through clips with a per-link stagger
+   passed via the custom prop - the same reveal language as the case grid. */
+export const mobileMenuOverlay: Variants = {
+    hidden: {
+        opacity: 0,
+        transition: { duration: 0.2, ease: caseEase },
+    },
+    visible: {
+        opacity: 1,
+        transition: { duration: 0.3, ease: caseEase },
+    },
+};
+
+export const mobileMenuLink: Variants = {
+    hidden: { y: '110%' },
+    visible: (delay: number = 0) => ({
+        y: 0,
+        transition: { duration: 0.5, delay, ease: caseEase },
+    }),
+};
+
+/* The detail view's full-bleed backdrop: a slow settle from a slight zoom reads as
+   cinematic at viewport scale, where a wipe (right for card-sized images) would not. */
+export const caseHeroReveal: Variants = {
+    hidden: {
+        opacity: 0,
+        scale: 1.06,
+        transition: { duration: 0.25, ease: caseEase },
+    },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.7, ease: caseEase },
     },
 };
 

@@ -1,18 +1,13 @@
+'use client';
+
 import React from 'react';
-import { OrientationNotSupportedContainer, TextContainer } from './OrientationNotSupported.style';
-import { Title, TitleSeparator } from '../Connections/Connections.style';
+import { Message, OrientationNotSupportedContainer, Title } from './OrientationNotSupported.style';
 
 const OrientationNotSupported = () => {
     return (
         <OrientationNotSupportedContainer>
-            <TextContainer>
-                <TitleSeparator>
-                    <Title>Orientation</Title>
-                </TitleSeparator>
-                <TitleSeparator>
-                    <Title>Not Supported</Title>
-                </TitleSeparator>
-            </TextContainer>
+            <Title>Rotate your device</Title>
+            <Message>This site is built for portrait on mobile. Turn your phone upright to continue.</Message>
         </OrientationNotSupportedContainer>
     );
 };

@@ -1,5 +1,8 @@
+'use client';
+
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { theme } from "../../Utils/Colors";
 
 export const BlurBackgroundContainer = styled(motion.div)`
   position: fixed;
@@ -57,6 +60,22 @@ export const RightContainer = styled.div`
 
 export const NavbarLinkContainer = styled.div`
   display: flex;
+`;
+
+/* Category label in the bar's left slot - mirrors the reference's detail-view footer
+   (category bottom-left, "see case" bottom-right). */
+export const BarLabel = styled.span`
+  font-family: Neue-Montreal, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${theme.secondaryFontColor};
+  white-space: nowrap;
+
+  @media (max-width: 767px) {
+    font-size: 0.75rem;
+    white-space: normal;
+  }
 `;
 
 export const NavbarLink = styled.a`
