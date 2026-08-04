@@ -90,11 +90,10 @@ function PageShellContent({ caseId }: PageShellProps) {
             }
         };
 
-        // Instant, not smooth: the stop() below puts `overflow: clip` on <html> via the
-        // lenis-stopped class, which cancels any scroll animation still in flight - a
-        // smooth glide here would die one frame in and strand a restored-scroll reload
-        // mid-page for the whole intro.
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        // No forced scroll to the top: the intro plays wherever the reader already is.
+        // The background reveal is a fixed layer, so it looks right from any scroll
+        // position, and a restored-scroll reload keeps its place instead of being
+        // yanked back to the hero.
         document.body.style.overflow = 'hidden';
         document.body.style.height = '100vh';
         // Pause the inertia animation too, or wheel input accumulates against the locked
