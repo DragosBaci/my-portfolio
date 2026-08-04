@@ -66,11 +66,20 @@ function PageShellContent({ caseId }: PageShellProps) {
         prefetchCaseAssets();
 
         /*
-         * Mobile skips the intro outright - no clip-path reveal, no 1s delay, no 2.5s
-         * scroll lock. The sequence existed to unveil the background, and mobile no
-         * longer renders one; all that was left of it there was a phone that ignores
-         * touches for 2.5 seconds. Checked via matchMedia rather than the isMobile
-         * state, which is still at its server-safe `false` when this effect runs.
+         * Everyone starts the visit at the hero; instant rather than smooth because on
+         * desktop the stop() below puts `overflow: clip` on <html> via the lenis-stopped
+         * class, which would kill a glide one frame in and strand a restored-scroll
+         * reload mid-page for the whole intro.
+         */
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+        /*
+         * Mobile shows the same starting point but skips the ceremony - no clip-path
+         * reveal, no 1s delay, no 2.5s scroll lock. The sequence existed to unveil the
+         * background, and mobile no longer renders one; all that was left of it there
+         * was a phone that ignores touches for 2.5 seconds. Checked via matchMedia
+         * rather than the isMobile state, which is still at its server-safe `false`
+         * when this effect runs.
          */
         if (window.matchMedia(MOBILE_QUERY).matches) {
             setIntroDone(true);
@@ -90,10 +99,6 @@ function PageShellContent({ caseId }: PageShellProps) {
             }
         };
 
-        // No forced scroll to the top: the intro plays wherever the reader already is.
-        // The background reveal is a fixed layer, so it looks right from any scroll
-        // position, and a restored-scroll reload keeps its place instead of being
-        // yanked back to the hero.
         document.body.style.overflow = 'hidden';
         document.body.style.height = '100vh';
         // Pause the inertia animation too, or wheel input accumulates against the locked
