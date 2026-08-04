@@ -12,10 +12,22 @@ import homeConstants from '../Home/homeConstants';
 import { ButtonContainer, WorkTitleButtonContainer } from './Work.style';
 import CustomWhiteButton from '../../Components/CustomWhiteButton/CustomWhiteButton';
 
-export default function Work() {
-    const { id } = useParams();
+type WorkProps = {
+    /* Handed down from the case route's server component. Prefer it over the router:
+       it is known at build time, which guarantees the open case is baked into the
+       exported HTML rather than depending on the client router having resolved the
+       param during prerender. */
+    caseId?: string;
+};
 
-    const selectedItem = useMemo(() => items.find(card => card.id === Number(id)), [id]);
+export default function Work({ caseId }: WorkProps) {
+    const params = useParams<{ id?: string }>();
+    const routeId = typeof params?.id === 'string' ? params.id : undefined;
+    // The prop wins on the statically rendered case pages; the router keeps client-side
+    // navigation working when the id changes without a full reload.
+    const activeId = caseId ?? routeId;
+
+    const selectedItem = useMemo(() => items.find(card => card.id === Number(activeId)), [activeId]);
 
     return (
         <>

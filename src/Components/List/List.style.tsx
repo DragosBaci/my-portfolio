@@ -138,37 +138,6 @@ export const ImageClip = styled.div`
     }
 `;
 
-/*
- * The cursor-following "view" pill. Driven by motion values rather than React state:
- * a setState per mousemove would re-render the card on every pointer event (the same
- * mistake that made the old Connections marquee expensive).
- */
-export const ViewPill = styled(motion.div)`
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-    background: ${theme.fontColor};
-    color: ${theme.mainSurface};
-    font-family: Neue-Montreal, sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    will-change: transform;
-
-    /* No cursor to follow on touch devices. */
-    @media (max-width: 767px) {
-        display: none;
-    }
-`;
-
 export const ImageInner = styled(motion.div)`
     width: 100%;
     height: 100%;

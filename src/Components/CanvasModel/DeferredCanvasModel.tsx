@@ -1,15 +1,22 @@
 'use client';
 
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
+import dynamic from 'next/dynamic';
 import useInViewport from '../../Hooks/useInViewport';
 import useIsMobile from '../../Hooks/useIsMobile';
 
 /**
  * three.js + @react-three/fiber + drei are by far the heaviest dependencies here.
- * Keeping them behind a dynamic import moves them out of the main bundle, and the
- * viewport check means they are only fetched once the model is about to be seen.
+ *
+ * `next/dynamic` with `ssr: false` rather than React.lazy: it guarantees the chunk is
+ * split out AND excluded from server rendering, so none of three.js is evaluated during
+ * the static export or shipped in the initial payload. The viewport check then delays
+ * the fetch until the model is about to be seen.
  */
-const CanvasModel = lazy(() => import('./CanvasModel'));
+const CanvasModel = dynamic(() => import('./CanvasModel'), {
+    ssr: false,
+    loading: () => null,
+});
 
 const DeferredCanvasModel: React.FC = () => {
     const { isMobile } = useIsMobile();
@@ -18,11 +25,7 @@ const DeferredCanvasModel: React.FC = () => {
     // The placeholder reserves the model's box up front so loading it shifts nothing.
     return (
         <div ref={ref} style={{ width: '100%', height: isMobile ? '55vh' : '90vh' }}>
-            {hasEnteredViewport && (
-                <Suspense fallback={null}>
-                    <CanvasModel active={isInViewport} />
-                </Suspense>
-            )}
+            {hasEnteredViewport && <CanvasModel active={isInViewport} />}
         </div>
     );
 };

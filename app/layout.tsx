@@ -20,7 +20,8 @@ export const metadata: Metadata = {
     description:
         'Dragos Baci is a software engineer in Cluj-Napoca, Romania, building AI-assisted financial reporting at Caseware. Previously video monetization at JWX Connatix and streaming UI at 3SS, with React, TypeScript and Angular.',
     authors: [{ name: 'Dragos Baci' }],
-    alternates: { canonical: '/' },
+    // No canonical here: layout metadata is inherited by every route, and each page
+    // declares its own so the case routes don't all point back at the homepage.
     robots: {
         index: true,
         follow: true,
@@ -91,6 +92,30 @@ const personJsonLd = {
         '@type': 'Organization',
         name: 'Caseware',
     },
+    /* Employment history, mirroring the Experience timeline. Gives a crawler the same
+       career facts the page shows, in a form it doesn't have to parse out of markup. */
+    hasOccupation: [
+        {
+            '@type': 'EmployeeRole',
+            startDate: '2026-04',
+            worksFor: { '@type': 'Organization', name: 'Caseware' },
+            roleName: 'Software Engineer, Financials Squad',
+        },
+        {
+            '@type': 'EmployeeRole',
+            startDate: '2024-09',
+            endDate: '2026-04',
+            worksFor: { '@type': 'Organization', name: 'JWX (formerly Connatix)' },
+            roleName: 'Software Engineer, Monetization Team',
+        },
+        {
+            '@type': 'EmployeeRole',
+            startDate: '2022-09',
+            endDate: '2024-08',
+            worksFor: { '@type': 'Organization', name: '3 Screen Solutions' },
+            roleName: 'Software Engineer',
+        },
+    ],
     knowsLanguage: ['Romanian', 'English'],
     knowsAbout: [
         'TypeScript',
@@ -168,15 +193,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     fetchPriority="high"
                 />
 
-                {/* Idle-priority: fetched after load without competing with the critical
-                    path, so they're cached by the time they scroll into view. */}
-                <link rel="prefetch" href="/images/forest_fire.png" />
-                <link rel="prefetch" href="/images/3ss.webp" />
-                <link rel="prefetch" href="/images/jwx.webp" />
-                <link rel="prefetch" href="/images/caseware.webp" />
-                <link rel="prefetch" href="/images/CarFlow.webp" />
-                <link rel="prefetch" href="/images/claude-claude-code.gif" />
-                <link rel="prefetch" href="/snake_statue.glb" as="fetch" crossOrigin="anonymous" />
+                {/*
+                  Desktop only, deliberately. These are ~3 MB in total (the 3D model
+                  alone is 2.1 MB) and "idle priority" is not free on a throttled mobile
+                  connection - it still competes for the same few hundred kbit/s that the
+                  LCP image needs. On a wide viewport the bandwidth is there and the
+                  assets are warm by the time they scroll into view; on a phone the card
+                  images are lazy-loaded and the model is fetched on demand anyway.
+                */}
+                <link rel="prefetch" href="/images/forest_fire.png" media="(min-width: 769px)" />
+                <link rel="prefetch" href="/images/3ss.webp" media="(min-width: 769px)" />
+                <link rel="prefetch" href="/images/jwx.webp" media="(min-width: 769px)" />
+                <link rel="prefetch" href="/images/caseware.webp" media="(min-width: 769px)" />
+                <link rel="prefetch" href="/images/CarFlow.webp" media="(min-width: 769px)" />
+                <link rel="prefetch" href="/images/claude-claude-code.gif" media="(min-width: 769px)" />
+                <link
+                    rel="prefetch"
+                    href="/snake_statue.glb"
+                    as="fetch"
+                    crossOrigin="anonymous"
+                    media="(min-width: 769px)"
+                />
 
                 <script
                     type="application/ld+json"
