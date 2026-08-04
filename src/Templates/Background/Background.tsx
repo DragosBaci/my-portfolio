@@ -1,80 +1,63 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { useMotionValueEvent, useScroll, useTransform } from 'framer-motion';
-import { BackgroundFrame, BackgroundFade } from './Background.style';
+import { useScroll, useTransform } from 'framer-motion';
+import { BackgroundFrame } from './Background.style';
 import { backgroundAnimation } from '../../Utils/AnimationValues';
 import useIsMobile from '../../Hooks/useIsMobile';
 
 /*
- * Paths into public/ rather than webpack imports, so the optimiser is handed a stable
+ * A path into public/ rather than a webpack import, so the optimiser is handed a stable
  * URL. next/image serves AVIF/WebP derivatives sized to the requesting device, which is
- * what turns these two large JPEGs into something a phone can afford.
+ * what turns this large JPEG into something any screen can afford.
  */
-const mobileBackground = '/images/backgroundMobile.jpg';
 const computerBackground = '/images/background.jpg';
 
 /*
- * Mobile swap-over points for the binary fade below, chosen to sit inside the desktop
- * scrub's ramps (0-0.34 out, 0.7-1 back): hide once the fade-out would be well under
- * way, return when the contact section is coming up.
+ * Desktop-only. On phones the scroll-linked treatment was the page's biggest source of
+ * scroll lag, and rather than a cheaper fade the call was to drop the background
+ * entirely - the sections sit on the body's flat dark instead. Rendering null (rather
+ * than hiding with CSS) also keeps the <img> out of the mobile DOM, so the file is
+ * never downloaded there; the SSR markup does still carry the desktop preload hint,
+ * which a phone may start fetching before hydration removes the frame - unavoidable
+ * with a static prerender that can't know the device, and it was already the pre-swap
+ * behaviour when this component served both layouts. There is no flash before that
+ * removal: the intro variant starts at opacity 0, and hydration unmounts the frame
+ * long before the 1s-delayed reveal begins.
  */
-const MOBILE_HIDE_AFTER = 0.2;
-const MOBILE_SHOW_AFTER = 0.85;
-
 const Background = () => {
     const { isMobile } = useIsMobile();
     const { scrollYProgress } = useScroll();
     const backgroundOpacity = useTransform(scrollYProgress, [0, 0.34, 0.7, 1], [1, 0, 0, 1]);
     const backgroundMovement = useTransform(scrollYProgress, [0, 0.3, 0.7], ['0vh', '-30vh', '0vh']);
 
-    /*
-     * On phones the desktop treatment - opacity scrubbed against scroll position - was
-     * the page's biggest source of scroll lag: every touch-scroll frame ran a JS style
-     * write on a screen-sized fixed layer, and any frame the main thread missed showed
-     * up as visible stutter. Instead of scrubbing, mobile flips a boolean at two scroll
-     * thresholds and lets a self-running tween do the fading: the scroll handler is
-     * reduced to a comparison, and the fade itself plays out frame-perfectly regardless
-     * of what scrolling is doing to the main thread. The design survives - background
-     * behind the hero, gone behind the text sections, back for the contact block.
-     */
-    const [mobileHidden, setMobileHidden] = useState(false);
-    useMotionValueEvent(scrollYProgress, 'change', value => {
-        if (!isMobile) return;
-        setMobileHidden(value > MOBILE_HIDE_AFTER && value < MOBILE_SHOW_AFTER);
-    });
+    if (isMobile) return null;
 
     return (
         <BackgroundFrame
-            /* The scrubbed values stay desktop-only; attaching a MotionValue here on
-               mobile would reinstate the per-frame writes the boolean fade replaces. */
-            style={isMobile ? undefined : { opacity: backgroundOpacity, marginTop: backgroundMovement }}
+            style={{
+                opacity: backgroundOpacity,
+                marginTop: backgroundMovement,
+            }}
             variants={backgroundAnimation}
             initial="hidden"
             animate="visible"
             aria-hidden="true"
         >
-            {/* Separate layer so the tween can't fight the frame: the frame owns the
-                intro variants (and the desktop scrub), this owns the mobile fade. */}
-            <BackgroundFade
-                animate={{ opacity: isMobile && mobileHidden ? 0 : 1 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-            >
-                <Image
-                    src={isMobile ? mobileBackground : computerBackground}
-                    alt=""
-                    fill
-                    /* This is the largest contentful paint: opt out of lazy loading and let
-                       Next emit a high-priority preload for it, replacing the hand-written
-                       <link rel="preload"> pair in the layout. */
-                    priority
-                    /* Always full-bleed, so the optimiser can pick a width from the viewport
-                       alone rather than assuming the 100vw default at every breakpoint. */
-                    sizes="100vw"
-                    style={{ objectFit: 'cover' }}
-                />
-            </BackgroundFade>
+            <Image
+                src={computerBackground}
+                alt=""
+                fill
+                /* This is the largest contentful paint: opt out of lazy loading and let
+                   Next emit a high-priority preload for it, replacing the hand-written
+                   <link rel="preload"> pair in the layout. */
+                priority
+                /* Always full-bleed, so the optimiser can pick a width from the viewport
+                   alone rather than assuming the 100vw default at every breakpoint. */
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+            />
         </BackgroundFrame>
     );
 };
