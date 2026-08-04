@@ -12,7 +12,7 @@ import AiPractice from '../AiPractice/AiPractice';
 import LetsConnect from '../LetsConnect/LetsConnect';
 import NavBar from '../NavBar/NavBar';
 import MobileNav from '../MobileNav/MobileNav';
-import useIsMobile from '../../Hooks/useIsMobile';
+import useIsMobile, { MOBILE_QUERY } from '../../Hooks/useIsMobile';
 import useOrientation from '../../Hooks/useOrientation';
 import OrientationNotSupported from '../OrientationNotSupported/OrientationNotSupported';
 import { IsClickedProvider } from '../../Context/IsClickedContext';
@@ -61,9 +61,21 @@ function PageShellContent({ caseId }: PageShellProps) {
         if (introHasPlayed) return;
         introHasPlayed = true;
 
-        // The intro's dead time doubles as a warm-up: the below-fold case images and
-        // the 3D model download while the visitor can't scroll toward them anyway.
+        // Warm the cache regardless of layout: on desktop this rides the intro's dead
+        // time, on mobile it simply starts at first paint.
         prefetchCaseAssets();
+
+        /*
+         * Mobile skips the intro outright - no clip-path reveal, no 1s delay, no 2.5s
+         * scroll lock. The sequence existed to unveil the background, and mobile no
+         * longer renders one; all that was left of it there was a phone that ignores
+         * touches for 2.5 seconds. Checked via matchMedia rather than the isMobile
+         * state, which is still at its server-safe `false` when this effect runs.
+         */
+        if (window.matchMedia(MOBILE_QUERY).matches) {
+            setIntroDone(true);
+            return;
+        }
 
         const releaseScrollLock = () => {
             setIntroDone(true);

@@ -50,8 +50,11 @@ export const MenuOverlay = styled(motion.nav)`
     position: fixed;
     inset: 0;
     z-index: 35;
-    background: linear-gradient(rgba(13, 13, 13, 0.94), rgba(13, 13, 13, 0.94)),
-        url('/images/backgroundMobile.jpg') center / cover no-repeat;
+    /* Solid, and deliberately so: this used to layer a 94%-opaque gradient over the
+       backgroundMobile.jpg photo - a full image decode and upload on every menu open,
+       for a texture the wash rendered all but invisible. Fully opaque also lets the
+       compositor skip everything beneath the open menu. */
+    background: #0d0d0d;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-const MOBILE_QUERY = '(max-width: 768px)';
+/* Exported for the rare consumer (the intro effect) that must know the answer
+   synchronously at mount, before this hook's state has corrected itself. */
+export const MOBILE_QUERY = '(max-width: 768px)';
 
 /**
  * A media query listener only fires when the breakpoint is actually crossed, unlike the
