@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PageShell from '@/Templates/PageContent/PageShell';
 import { items } from '@/Components/List/data';
+import { SITE_URL } from '@/Utils/Site';
 
-const SITE_URL = 'https://dragosbaci.com';
 
 type CaseParams = { params: { id: string } };
 

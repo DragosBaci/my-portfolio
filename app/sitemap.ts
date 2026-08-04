@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { items } from '@/Components/List/data';
+import { SITE_URL } from '@/Utils/Site';
 
-const SITE_URL = 'https://dragosbaci.com';
 
 /*
  * Generated rather than hand-written: the case routes are derived from the same array

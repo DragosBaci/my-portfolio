@@ -2,8 +2,8 @@ import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import StyledComponentsRegistry from './registry';
 import './globals.css';
+import { SITE_URL } from '@/Utils/Site';
 
-const SITE_URL = 'https://dragosbaci.com';
 const DESCRIPTION =
     'Software engineer in Cluj-Napoca building AI-assisted financial reporting at Caseware. Previously video monetization at JWX Connatix and streaming UI at 3SS.';
 
