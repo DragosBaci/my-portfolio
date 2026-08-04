@@ -1,0 +1,129 @@
+/*
+ * Font faces live here rather than in an inline <style> in the document head, which is
+ * where CRA needed them: Next's css-loader leaves root-absolute url() paths alone, so
+ * files under public/ resolve correctly from a bundled stylesheet.
+ * Prefer woff2 > otf > ttf: same glyphs, a fraction of the bytes.
+ */
+
+@font-face {
+  font-family: 'Tusker-Bold';
+  src: url('/fonts/TuskerGrotesk-2600Semibold.otf') format('opentype');
+  font-display: swap;
+}
+
+/* Same family as Tusker-Bold, but OS/2 width class 5 (Normal) instead of 2
+   (Extra-condensed) - used where the condensed cut reads as cramped below display
+   scale. */
+@font-face {
+  font-family: 'Tusker-Normal';
+  src: url('/fonts/TuskerGrotesk-5600Semibold.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Migra';
+  src: url('/fonts/Migra-Extrabold.woff2') format('woff2'),
+    url('/fonts/Migra-Extrabold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Migra-light';
+  src: url('/fonts/MigraItalic-ExtraboldItalic.woff2') format('woff2'),
+    url('/fonts/MigraItalic-ExtraboldItalic.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue-Montreal';
+  src: url('/fonts/NeueMontreal-Medium.otf') format('opentype');
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #131313;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html,
+body {
+  height: auto;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/*
+ * Thin themed scrollbar instead of none at all: on a long single-page site, hiding it
+ * completely removes the only always-available sense of where you are on the page.
+ */
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 238, 230, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 238, 230, 0.4);
+}
+
+/* Firefox equivalent of the above. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 238, 230, 0.25) transparent;
+}
+
+/*
+ * Keyboard focus: a visible cream ring, only for keyboard navigation (:focus-visible
+ * stays quiet on mouse clicks). Without this, tabbing through the site is invisible -
+ * every interactive element here is an anchor or button with default outlines removed.
+ */
+:focus-visible {
+  outline: 2px solid #f5eee6;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/*
+ * Reduced motion: kill CSS transitions/animations and smooth scrolling for users who
+ * ask for it at the OS level. Framer-motion animations are handled separately via
+ * MotionConfig reducedMotion="user" in the page shell - this covers everything
+ * CSS-driven (hover zooms, link underlines, scroll-behavior).
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

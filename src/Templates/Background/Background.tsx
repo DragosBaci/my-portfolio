@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useScroll, useTransform } from 'framer-motion';
 import { BackgroundImage } from './Background.style';
@@ -9,8 +11,8 @@ import useIsMobile from '../../Hooks/useIsMobile';
  * can preload. Imported through webpack they sit behind the JS bundle in the dependency
  * graph, and the browser cannot discover the largest contentful paint until React runs.
  */
-const mobileBackground = `${process.env.PUBLIC_URL}/images/backgroundMobile.jpg`;
-const computerBackground = `${process.env.PUBLIC_URL}/images/background.jpg`;
+const mobileBackground = '/images/backgroundMobile.jpg';
+const computerBackground = '/images/background.jpg';
 
 const Background = () => {
     const { isMobile } = useIsMobile();
@@ -28,7 +30,8 @@ const Background = () => {
             variants={backgroundAnimation}
             initial="hidden"
             animate="visible"
-            alt="background"
+            alt=""
+            aria-hidden="true"
             // Decode off the main thread so the intro animation is not blocked by it.
             decoding="async"
         />

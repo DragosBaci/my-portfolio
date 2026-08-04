@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { CaseSubtitle, CaseTitle, TextCell, TitleClip } from './List.style';
 import useInViewport from '../../Hooks/useInViewport';

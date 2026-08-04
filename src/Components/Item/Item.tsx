@@ -1,20 +1,31 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import {
-    CardContent,
-    CardContentContainerOpen,
-    CardImage,
-    CardImageContainer,
-    ContentContainer,
-    ContentTitle,
-    ContentTitleContainer,
+    BottomBlock,
+    CaseIndex,
+    CloseHint,
+    DetailDescription,
+    DetailStage,
+    DetailTitle,
+    HeroImage,
+    HeroImageWrap,
+    HeroScrim,
     Overlay,
     OverlayLink,
-    Subtitle,
+    TitleBlock,
+    TitleClip,
 } from './Item.style';
 import { useIsClickedContext } from '../../Context/IsClickedContext';
 import SeeCaseBar from '../SeeCaseBar/SeeCaseBar';
 import { CardType } from '../../Utils/Types';
-import { caseOverlayAnimation, casePanelAnimation } from '../../Utils/AnimationValues';
+import { items } from '../List/data';
+import {
+    caseHeroReveal,
+    caseOverlayAnimation,
+    caseSubtitleReveal,
+    caseTitleReveal,
+} from '../../Utils/AnimationValues';
 
 type ItemProps = {
     cardData: CardType;
@@ -37,25 +48,42 @@ const Item: React.FC<ItemProps> = ({ cardData }) => {
         };
     }, [updateIsClicked]);
 
+    const caseNumber = String(items.findIndex(item => item.id === cardData.id) + 1).padStart(2, '0');
+    const caseTotal = String(items.length).padStart(2, '0');
+
     return (
         <>
             <Overlay variants={caseOverlayAnimation} initial="hidden" animate="visible" exit="hidden">
-                <OverlayLink to={'/'} />
+                <OverlayLink href="/" />
             </Overlay>
-            <CardContentContainerOpen>
-                <CardContent variants={casePanelAnimation} initial="hidden" animate="visible" exit="hidden">
-                    <CardImageContainer>
-                        <CardImage src={`/images/${cardData.image}`} alt="card image" decoding="async" />
-                    </CardImageContainer>
-                    <ContentContainer>
-                        <ContentTitleContainer>
-                            <ContentTitle>{cardData.title}</ContentTitle>
-                            <Subtitle>{cardData.description}</Subtitle>
-                        </ContentTitleContainer>
-                    </ContentContainer>
-                </CardContent>
-            </CardContentContainerOpen>
-            <SeeCaseBar link={cardData.link} />
+            {/*
+             * One orchestration point: the stage owns initial/animate/exit and its
+             * children inherit those states through variant propagation, each resolving
+             * them against its own reveal (hero settle, title wipe, meta fades).
+             */}
+            <DetailStage variants={caseOverlayAnimation} initial="hidden" animate="visible" exit="hidden">
+                <HeroImageWrap variants={caseHeroReveal}>
+                    <HeroImage
+                        src={`/images/${cardData.image}`}
+                        alt={`${cardData.title} — ${cardData.subtitle}`}
+                        decoding="async"
+                    />
+                    <HeroScrim />
+                </HeroImageWrap>
+                <CaseIndex variants={caseSubtitleReveal}>
+                    {caseNumber} / {caseTotal}
+                </CaseIndex>
+                <CloseHint variants={caseSubtitleReveal}>Close ✕</CloseHint>
+                <BottomBlock>
+                    <TitleBlock>
+                        <TitleClip>
+                            <DetailTitle variants={caseTitleReveal}>{cardData.title}</DetailTitle>
+                        </TitleClip>
+                    </TitleBlock>
+                    <DetailDescription variants={caseSubtitleReveal}>{cardData.description}</DetailDescription>
+                </BottomBlock>
+            </DetailStage>
+            <SeeCaseBar link={cardData.link} label={cardData.subtitle} />
         </>
     );
 };

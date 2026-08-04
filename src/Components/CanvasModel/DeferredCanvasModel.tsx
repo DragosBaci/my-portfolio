@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Suspense, lazy } from 'react';
 import useInViewport from '../../Hooks/useInViewport';
 import useIsMobile from '../../Hooks/useIsMobile';

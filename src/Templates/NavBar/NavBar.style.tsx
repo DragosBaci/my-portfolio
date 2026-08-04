@@ -1,6 +1,8 @@
+'use client';
+
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 export const BlurBackgroundContainer = styled(motion.div)`
     position: fixed;
     width: 100%;

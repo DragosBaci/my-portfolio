@@ -1,3 +1,5 @@
+'use client';
+
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { theme } from '../../Utils/Colors';
@@ -27,6 +29,17 @@ export const SplitContainerItems = styled.div`
         text-align: left;
         padding-left: 2%;
     }
+`;
+
+/* Wraps the two title lines so the page has exactly one h1 carrying the real headline,
+   rather than the section labels each rendering their own (which they used to). */
+export const TitleHeading = styled.h1`
+    margin: 0;
+    padding: 0;
+    font-weight: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `;
 
 export const Title = styled(motion.span)`

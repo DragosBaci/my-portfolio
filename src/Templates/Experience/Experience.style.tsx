@@ -1,11 +1,14 @@
+'use client';
+
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { theme } from '../../Utils/Colors';
-import { sectionInset } from '../../Utils/Layout';
+import { sectionGap, sectionInset } from '../../Utils/Layout';
 
 export const ExperienceContainer = styled.div`
     width: 100%;
-    padding: 6vw 0 8vw;
+    padding: 6vw 0 0;
+    ${sectionGap}
 
     /* See AboutMe.style.tsx for why this is gated to when NavBar is actually rendered. */
     @media (min-width: 769px) {

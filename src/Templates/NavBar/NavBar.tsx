@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
     BlurBackgroundContainer,
@@ -13,14 +15,7 @@ import {
 import { useScroll, useTransform } from 'framer-motion';
 import { navigationAnimation } from '../../Utils/AnimationValues';
 import { useIsClickedContext } from '../../Context/IsClickedContext';
-
-const sectionLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Work', href: '#work' },
-    { label: 'Connections', href: '#connections' },
-    { label: 'Contact', href: '#contact' },
-];
+import { sectionLinks } from '../../Utils/NavigationLinks';
 
 const NavBar: React.FC = () => {
     const { scrollYProgress } = useScroll();
@@ -46,7 +41,7 @@ const NavBar: React.FC = () => {
                 <NavigationBar>
                     <LeftContainer>
                         <NavbarLinkContainer>
-                            <NavbarLink to="/" onClick={handleScrollToTop}>
+                            <NavbarLink href="/" onClick={handleScrollToTop}>
                                 {' '}
                                 Baci Dragos
                             </NavbarLink>

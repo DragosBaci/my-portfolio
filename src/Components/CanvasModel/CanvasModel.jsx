@@ -1,10 +1,12 @@
+'use client';
+
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, Stage, PresentationControls } from '@react-three/drei';
 import { CanvasModelContainer } from './CanvasModel.style';
 import useIsMobile from '../../Hooks/useIsMobile';
 
-const MODEL_URL = `${process.env.PUBLIC_URL}/snake_statue.glb`;
+const MODEL_URL = '/snake_statue.glb';
 
 function Model(props) {
     const { scene } = useGLTF(MODEL_URL);

@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import {
+    BackToTop,
     BottomNavbarBorderBottom,
     BottomNavbarContainer,
     BottomNavbarSplitter,
@@ -25,7 +28,7 @@ const LetsConnect = () => {
                 <Title>Connect</Title>
             </SplitContainerItemsLeft>
             <SplitContainerItemsRight>
-                <WorkTitle title={"I'M ALWAYS INTERESTED ABOUT"} subtitle={''} star={false} />
+                <WorkTitle title={"I'M ALWAYS INTERESTED ABOUT"} star={false} />
                 <ButtonContainer>
                     <CustomButton value={'UX/UI Design'} />
                     <CustomButton value={'Frontend development'} />
@@ -49,6 +52,12 @@ const LetsConnect = () => {
                     <BottomNavbarSplitter>
                         <BottomNavbarTitle>ARE YOU MINDING A JOB?</BottomNavbarTitle>
                         <CustomWhiteButton value={'CONTACT'} email={'dragos617@yahoo.com'} />
+                        <BackToTop
+                            type="button"
+                            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+                        >
+                            Back to top ↑
+                        </BackToTop>
                     </BottomNavbarSplitter>
                     <BottomNavbarBorderBottom></BottomNavbarBorderBottom>
                     <BottomNavbarSplitter>

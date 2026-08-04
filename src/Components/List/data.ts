@@ -3,12 +3,12 @@ import { CardType } from '../../Utils/Types';
 export const items: CardType[] = [
     {
         id: 1,
-        title: 'Car Flow App',
-        subtitle: 'UX/UI Design, Development',
+        title: 'Forest Fire Simulator',
+        subtitle: 'Development',
         description:
-            'Our team, consisting of five individuals, developed an application as part of a school project. The app is designed for efficiently managing a fleet of cars, whether for company or personal use.',
-        image: 'CarFlow.webp',
-        link: 'https://github.com/orgs/Urzisoft/repositories',
+            'An interactive implementation of the Drossel-Schwabl forest fire model: trees grow and lightning ignites fires under two tunable probabilities, producing the power-law distribution of fire sizes that gives the model its self-organized criticality.',
+        image: 'forest_fire.png',
+        link: 'https://forest.dragosbaci.com/',
     },
     {
         id: 2,
@@ -21,21 +21,21 @@ export const items: CardType[] = [
     },
     {
         id: 3,
-        title: 'Microservices',
-        subtitle: 'Development',
+        title: 'Video Ad Auctions',
+        subtitle: 'Ad Tech, Development',
         description:
-            'The development of this app was undertaken with the specific goal of gaining deeper insights into the microservice architecture using Spring Boot.',
-        image: 'microservice.webp',
-        link: 'https://github.com/DragosBaci/java-microservices-demo',
+            'Core contributor on the Monetization team at JWX (formerly Connatix), working on the auction layer of a production-scale video platform - the bidding logic and third-party demand integrations that decide which ad is served in the moments before a video plays.',
+        image: 'jwx.webp',
+        link: 'https://jwx.com/',
     },
     {
         id: 4,
-        title: 'CarRepair',
-        subtitle: 'UX/UI Design, Development',
+        title: 'Financial Reporting',
+        subtitle: 'Audit Tech, Development',
         description:
-            'My colleague and I collaborated on the development of an application that employs Artificial Intelligence to assess the extent of damage to a car following an accident.',
-        image: 'carRepair.webp',
-        link: 'https://github.com/Urzisoft/urzisoft-car-damage-management-mobile-app',
+            'Software Engineer on the Financials squad at Caseware, a cloud platform accounting and audit firms use to run reporting and compliance work. Angular front-end inside a manifest-driven architecture that powers configurable, standards-aligned reporting workflows - plus caching for large engagement files and the squad CI/CD pipelines.',
+        image: 'caseware.webp',
+        link: 'https://www.caseware.com/',
     },
     // PLACEHOLDER - fills the fifth row of the grid pattern. Swap the copy, the link
     // and `image` (currently reusing CarFlow.webp) for a real case when you have one.

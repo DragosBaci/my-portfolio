@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { BottomNavbarSocialsContainer, BottomNavbarSocialsTitle } from './BottomNavbarSocials.style';
 
@@ -9,7 +11,7 @@ type BottomNavbarSocialsProps = {
 
 const BottomNavbarSocials: React.FC<BottomNavbarSocialsProps> = ({ title, link, downloadCV }) => {
     const anchorProps = downloadCV
-        ? { href: `${process.env.PUBLIC_URL}/Dragos Baci.pdf`, download: 'Dragos_Baci_CV.pdf' }
+        ? { href: '/DragosBaci_Resume.pdf', download: 'DragosBaci_Resume.pdf' }
         : { href: link, target: '_blank', rel: 'noopener noreferrer' };
 
     return (

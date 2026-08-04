@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { CasesGrid, ListContainer } from './List.style';
 import { items } from './data';
