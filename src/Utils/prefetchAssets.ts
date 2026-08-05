@@ -48,7 +48,7 @@ export function prefetchCaseAssets() {
     }
 
     /*
-     * The statue (~230 KB - meshopt geometry + WebP textures; it was 2 MB before
+     * The statue (~500 KB - original geometry, WebP q90 textures; it was 2 MB before
      * gltf-transform). Its chunk only downloads when the About section nears the
      * viewport; pulling the model itself into HTTP cache now means that moment costs
      * one dynamic import instead of an import plus a fetch mid-scroll. Reading the

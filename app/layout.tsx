@@ -183,7 +183,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   every one of them a second time and never be used. The background's
                   `priority` flag makes Next emit the correct preload for the LCP itself.
 
-                  The statue's two payloads - the meshopt/WebP GLB (~230 KB) and its
+                  The statue's two payloads - the WebP-textured GLB (~500 KB) and its
                   environment EXR (~133 KB) - are hinted as `preload` rather than
                   `prefetch`: prefetch is idle-priority and browsers routinely hold it
                   back for seconds, which read as the model "loading slow". These start
