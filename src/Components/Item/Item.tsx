@@ -125,9 +125,6 @@ const Item: React.FC<ItemProps> = ({ cardData, onClose }) => {
                     <VisitLink href={cardData.link} target="_blank" rel="noopener noreferrer">
                         Visit project
                     </VisitLink>
-                    {/* A second close at the bottom: on a long panel the header's is a
-                        full thumb-reach away on mobile. */}
-                    <CloseButton onClick={onClose}>Close</CloseButton>
                 </PanelFooter>
             </Panel>
         </>
