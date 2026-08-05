@@ -32,7 +32,13 @@ const caseLayouts: CaseLayout[] = [
     { textColumn: 1, imageColumn: 2 },
 ];
 
-const List: React.FC = () => {
+type ListProps = {
+    /* Opens a case as client state in Work - see there for why this is a callback
+       rather than each card linking to /[id] itself. */
+    onOpenCase: (id: number) => void;
+};
+
+const List: React.FC<ListProps> = ({ onOpenCase }) => {
     return (
         <ListContainer>
             <CasesGrid>
@@ -59,6 +65,7 @@ const List: React.FC = () => {
                             title={card.title}
                             column={layout.imageColumn}
                             row={row}
+                            onOpen={onOpenCase}
                         />
                     );
 

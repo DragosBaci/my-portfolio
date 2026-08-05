@@ -2,137 +2,123 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import Image from 'next/image';
 import { theme } from '../../Utils/Colors';
 
 /*
- * The detail view is a full-bleed poster: the project image IS the page, with the
- * title stamped over it and metadata pinned to the corners. Nothing floats in the
- * middle of empty space - every element anchors to an edge, which is what the two
- * previous box-based layouts lacked. The overlay behind it doubles as the
- * click-anywhere-to-close catcher (the poster itself is pointer-events: none).
+ * The detail view is a drawer, not a poster. The page stays visible - dimmed - behind
+ * it, which keeps the reader oriented: they never "left" the grid, so closing feels
+ * like putting something down rather than navigating back. The project image is one
+ * contained block inside the panel instead of a full-bleed backdrop, so type sits on
+ * solid ground and legibility never depends on what the photo happens to contain.
  */
-export const Overlay = styled(motion.div)`
-    z-index: 1;
+
+/* Dimmer + click-anywhere-to-close. Flat alpha, no backdrop blur: a full-screen blur
+   would tax exactly the moment the drawer is animating. */
+export const Backdrop = styled(motion.button)`
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(13, 13, 13, 0.72);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+`;
+
+/*
+ * The drawer. dvh so the browser chrome collapsing on mobile can't leave a dead strip;
+ * data-lenis-prevent (set in Item.tsx) lets the panel scroll its own overflow while
+ * Lenis holds the page behind it still.
+ */
+export const Panel = styled(motion.aside)`
     position: fixed;
     top: 0;
+    right: 0;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    background-color: #0d0d0d;
-    pointer-events: auto;
-`;
-
-export const OverlayLink = styled(Link)`
-    display: block;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 100vw;
-    left: 50%;
-
-    transform: translateX(-50%);
-`;
-
-export const DetailStage = styled(motion.div)`
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-`;
-
-/* Full-viewport backdrop image. Dimmed twice over: brightness on the image itself and
-   a bottom-heavy gradient scrim, so the cream title stays legible over any photo. */
-export const HeroImageWrap = styled(motion.div)`
-    position: absolute;
-    inset: 0;
-`;
-
-export const HeroImage = styled(Image)`
-    object-fit: cover;
-    filter: brightness(0.55);
-`;
-
-export const HeroScrim = styled.div`
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(13, 13, 13, 0.45) 0%, rgba(13, 13, 13, 0.05) 35%, rgba(13, 13, 13, 0.82) 100%);
-`;
-
-/* Index pinned top-left, e.g. "01 / 05" - Migra-light, the site's italic accent face. */
-export const CaseIndex = styled(motion.p)`
-    position: absolute;
-    top: 10vh;
-    left: 6vw;
-    font-family: Migra-light, serif;
-    font-size: clamp(1.1rem, 1.6vw, 1.6rem);
-    color: ${theme.secondaryFontColor};
-    margin: 0;
+    z-index: 31;
+    width: min(640px, 100vw);
+    height: 100dvh;
+    background: #121212;
+    border-left: 1px solid rgba(245, 238, 230, 0.08);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(20px, 3vh, 40px) clamp(20px, 3vw, 48px);
+    box-sizing: border-box;
 
     @media (max-width: 767px) {
-        top: 24px;
-        left: 20px;
+        width: 100vw;
+        border-left: none;
     }
 `;
 
-/* Close affordance top-right. Purely a hint - the whole screen closes on click. */
-export const CloseHint = styled(motion.p)`
-    position: absolute;
-    top: 10vh;
-    right: 6vw;
-    font-family: Neue-Montreal, sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: ${theme.fontColor}99;
-    margin: 0;
-
-    @media (max-width: 767px) {
-        top: 24px;
-        right: 20px;
-    }
-`;
-
-/* Title and description anchor to the bottom edge, above the SeeCaseBar (height 7%),
-   title left and description right on desktop - Swiss-style opposed alignment. */
-export const BottomBlock = styled.div`
-    position: absolute;
-    left: 6vw;
-    right: 6vw;
-    bottom: 13vh;
+/* Index left, close right - the panel's one fixed anchor row. */
+export const PanelHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    gap: 4vw;
+    align-items: baseline;
+    padding-bottom: clamp(16px, 2.5vh, 28px);
+`;
 
-    @media (max-width: 900px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-        left: 20px;
-        right: 20px;
-        bottom: 12vh;
+export const CaseIndex = styled(motion.p)`
+    font-family: Migra-light, serif;
+    font-size: 1.1rem;
+    color: ${theme.secondaryFontColor};
+    margin: 0;
+`;
+
+export const CloseButton = styled.button`
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: ${theme.fontColor};
+    background: none;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 200ms ease;
+
+    &:hover {
+        opacity: 1;
     }
 `;
 
-export const TitleBlock = styled.div`
-    min-width: 0;
+/* The image as an object in the layout - fixed ratio, clipped, never a background. */
+export const MediaBlock = styled(motion.div)`
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    flex-shrink: 0;
+`;
+
+export const MediaImage = styled(Image)`
+    object-fit: cover;
+`;
+
+export const CaseCategory = styled(motion.p)`
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: ${theme.secondaryFontColor};
+    margin: clamp(20px, 3.5vh, 36px) 0 0;
 `;
 
 export const TitleClip = styled.div`
     overflow: hidden;
     padding-bottom: 0.08em;
+    margin-top: 6px;
 `;
 
 export const DetailTitle = styled(motion.h2)`
     font-family: Tusker-Bold, serif;
-    font-size: clamp(3rem, 9vw, 9.5rem);
-    /* Not below 1: the clip above crops anything outside the line box, and Tusker's
-       caps overshoot a line box tighter than the font's own leading - the same crop
-       bug fixed on the grid's CaseTitle earlier. */
+    font-size: clamp(2.8rem, 7vw, 4.8rem);
+    /* Tusker's caps overshoot tight line boxes; anything below this crops inside the
+       clip above - same bug fixed twice elsewhere, not making it a third time. */
     line-height: 1.08;
     letter-spacing: 0.01em;
     text-transform: uppercase;
@@ -140,17 +126,61 @@ export const DetailTitle = styled(motion.h2)`
     margin: 0;
 `;
 
-/* Sentence case, narrow measure, right-anchored on desktop. */
 export const DetailDescription = styled(motion.p)`
     font-family: Neue-Montreal, serif;
-    font-size: clamp(0.9rem, 1.05vw, 1.15rem);
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.65;
     color: ${theme.fontColor}dd;
-    max-width: 36ch;
-    margin: 0;
-    flex-shrink: 0;
+    max-width: 58ch;
+    margin: clamp(14px, 2vh, 24px) 0 0;
+`;
 
-    @media (max-width: 900px) {
-        max-width: 52ch;
+/*
+ * CTA pinned to the panel's bottom edge by the spacer margin; a top rule separates it
+ * from the copy the way the grid separates rows. The arrow is the same glyph language
+ * as the old bar's external links.
+ */
+export const PanelFooter = styled(motion.div)`
+    margin-top: auto;
+    padding-top: clamp(16px, 2.5vh, 28px);
+    border-top: 1px solid rgba(245, 238, 230, 0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+`;
+
+export const VisitLink = styled.a`
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: ${theme.fontColor};
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    &:after {
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background: url("data:image/svg+xml;utf8,<svg width='17' height='17' xmlns='http://www.w3.org/2000/svg'><path d='M14.875 13.357V3.643L1.518 17 0 15.482 13.357 2.125H3.643V0H17v13.357z' fill='%23F5EEE6' fill-rule='nonzero'></path></svg>")
+            center / contain no-repeat;
+        transition: transform 250ms cubic-bezier(0.22, 0.61, 0.36, 1);
     }
+
+    &:hover:after {
+        transform: translate(3px, -3px);
+    }
+`;
+
+export const FooterLabel = styled.span`
+    font-family: Neue-Montreal, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: ${theme.secondaryFontColor};
+    text-align: right;
 `;

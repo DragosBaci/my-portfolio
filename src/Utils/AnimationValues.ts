@@ -60,22 +60,6 @@ export const navigationAnimation = {
     },
 };
 
-/* Timed to match caseOverlay/casePanel so the bar, panel and overlay move as one. */
-export const seeCaseAnimation = {
-    visible: {
-        opacity: 1,
-        transition: {
-            duration: 0.35,
-        },
-    },
-    hidden: {
-        opacity: 0,
-        transition: {
-            duration: 0.2,
-        },
-    },
-};
-
 /**
  * Opening a case animates opacity and transform only - both run on the compositor,
  * so nothing here forces layout or paint. Closing is deliberately quicker than
@@ -93,6 +77,41 @@ export const caseOverlayAnimation: Variants = {
     visible: {
         opacity: 1,
         transition: { duration: 0.35, ease: caseEase },
+    },
+};
+
+/**
+ * The case detail drawer. The panel slides in from the right edge; its children
+ * inherit hidden/visible through variant propagation and resolve them against their
+ * own reveals, staggered top to bottom. Closing runs the same path faster - a slow
+ * dismiss reads as unresponsive.
+ */
+export const casePanel: Variants = {
+    hidden: {
+        x: '100%',
+        transition: { duration: 0.3, ease: caseEase },
+    },
+    visible: {
+        x: 0,
+        transition: {
+            duration: 0.5,
+            ease: caseEase,
+            staggerChildren: 0.06,
+            delayChildren: 0.12,
+        },
+    },
+};
+
+export const casePanelChild: Variants = {
+    hidden: {
+        opacity: 0,
+        y: 16,
+        transition: { duration: 0.15, ease: caseEase },
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: caseEase },
     },
 };
 
@@ -145,21 +164,6 @@ export const mobileMenuLink: Variants = {
         y: 0,
         transition: { duration: 0.5, delay, ease: caseEase },
     }),
-};
-
-/* The detail view's full-bleed backdrop: a slow settle from a slight zoom reads as
-   cinematic at viewport scale, where a wipe (right for card-sized images) would not. */
-export const caseHeroReveal: Variants = {
-    hidden: {
-        opacity: 0,
-        scale: 1.06,
-        transition: { duration: 0.25, ease: caseEase },
-    },
-    visible: {
-        opacity: 1,
-        scale: 1,
-        transition: { duration: 0.7, ease: caseEase },
-    },
 };
 
 /**

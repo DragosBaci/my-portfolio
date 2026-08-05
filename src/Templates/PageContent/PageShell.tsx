@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { MotionConfig } from 'framer-motion';
 import Background from '../Background/Background';
 import AboutMe from '../AboutMe/AboutMe';
@@ -15,7 +14,7 @@ import MobileNav from '../MobileNav/MobileNav';
 import useIsMobile, { MOBILE_QUERY } from '../../Hooks/useIsMobile';
 import useOrientation from '../../Hooks/useOrientation';
 import OrientationNotSupported from '../OrientationNotSupported/OrientationNotSupported';
-import { IsClickedProvider } from '../../Context/IsClickedContext';
+import { IsClickedProvider, useIsClickedContext } from '../../Context/IsClickedContext';
 import SmoothScroll, { getLenis } from '../../Components/SmoothScroll/SmoothScroll';
 import { prefetchCaseAssets } from '../../Utils/prefetchAssets';
 
@@ -40,15 +39,19 @@ type PageShellProps = {
 function PageShellContent({ caseId }: PageShellProps) {
     const { isMobile } = useIsMobile();
     const orientation = useOrientation();
-    // next/navigation types params as string | string[]; the route only ever has one.
-    const params = useParams<{ id?: string }>();
-    const routeId = typeof params?.id === 'string' ? params.id : undefined;
-    const id = caseId ?? routeId;
+    /*
+     * Whether a case drawer is open right now. From context rather than the route:
+     * cases open via history.pushState without a navigation (see Work), so route
+     * params freeze at whatever the initial load was and can't be trusted for this.
+     * The drawer flips this flag in its mount effect, which runs before the intro's
+     * release could ever consult it.
+     */
+    const { isClicked } = useIsClickedContext();
 
-    // Ref, not dependency: the intro effect must run exactly once, but the timer needs
-    // to see the id as it is when it fires, not as it was on mount.
-    const openItemRef = useRef(id);
-    openItemRef.current = id;
+    // Ref, not dependency: the intro effect must run exactly once, but its release
+    // callback needs the flag as it is when it fires, not as it was on mount.
+    const openItemRef = useRef(isClicked);
+    openItemRef.current = isClicked;
 
     /*
      * Gates the navbars while the intro plays. Seeded from the module flag so shell

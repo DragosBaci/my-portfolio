@@ -21,9 +21,10 @@ type CardProps = {
     title: string;
     column: number;
     row: number;
+    onOpen: (id: number) => void;
 };
 
-const Card: React.FC<CardProps> = ({ id, image, title, column, row }) => {
+const Card: React.FC<CardProps> = ({ id, image, title, column, row, onOpen }) => {
     /*
      * Observed on the cell rather than on the image: the image starts a full height below
      * its `overflow: hidden` clip, and IntersectionObserver intersects against clipping
@@ -46,8 +47,22 @@ const Card: React.FC<CardProps> = ({ id, image, title, column, row }) => {
                         sizes={CASE_IMAGE_SIZES}
                     />
                 </ImageInner>
-                {/* Absolute, not relative: from `/1` a relative `2` resolves to `/1/2`. */}
-                <CardOpenLink href={`/${id}`} aria-label={`Open case: ${title}`} />
+                {/*
+                 * Still a real <a href="/1"> - middle-click, cmd-click and crawlers get
+                 * the case route as before - but a plain left click is intercepted and
+                 * opened as an in-place overlay. Letting the link actually navigate is
+                 * what used to remount the whole page and throw the scroll position away.
+                 */}
+                <CardOpenLink
+                    href={`/${id}`}
+                    aria-label={`Open case: ${title}`}
+                    onClick={event => {
+                        // Leave modified clicks (new tab, new window) to the browser.
+                        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                        event.preventDefault();
+                        onOpen(id);
+                    }}
+                />
             </ImageClip>
         </ImageCell>
     );
