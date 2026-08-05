@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, Stage, PresentationControls } from '@react-three/drei';
 import { CanvasModelContainer } from './CanvasModel.style';
@@ -23,6 +23,20 @@ function Model(props) {
 function CanvasModel({ active = true }) {
     const { isMobile } = useIsMobile();
 
+    /*
+     * Render for a couple of seconds after mount even when off screen. WebGL compiles
+     * shaders lazily on the first frame that draws them, so without this the compile
+     * hitch waits inside the first visible frame - the statue popping in late exactly
+     * when the section scrolls into view. The warm-up mounts at idle time (see
+     * DeferredCanvasModel), draws unseen below the fold while the prefetched assets
+     * resolve, and then the loop stops until the viewport needs it.
+     */
+    const [warmingUp, setWarmingUp] = useState(true);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => setWarmingUp(false), 2000);
+        return () => clearTimeout(timeoutId);
+    }, []);
+
     return (
         <CanvasModelContainer style={{ height: `${isMobile ? '55vh' : '90vh'}` }}>
             <Canvas
@@ -35,7 +49,7 @@ function CanvasModel({ active = true }) {
                 // one thing on the page heavy enough to drop scroll frames on its own.
                 dpr={isMobile ? 1 : [1, 2]}
                 // Stop the render loop entirely while the model is scrolled off screen.
-                frameloop={active ? 'always' : 'never'}
+                frameloop={active || warmingUp ? 'always' : 'never'}
                 camera={{ fov: 45, position: [0, 0, 5] }}
             >
                 <PresentationControls speed={1.5} zoom={0} polar={[0, 0]}>
