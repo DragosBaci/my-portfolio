@@ -26,7 +26,14 @@ const computerBackground = '/images/background.jpg';
  * removal: the intro variant starts at opacity 0, and hydration unmounts the frame
  * long before the 1s-delayed reveal begins.
  */
-const Background = () => {
+type BackgroundProps = {
+    /* Fired when the mount reveal finishes - PageShell uses it to end the intro's
+       scroll lock at the exact moment the choreography is over, instead of trusting a
+       hardcoded timer to stay in sync with the animation values. */
+    onRevealComplete?: () => void;
+};
+
+const Background = ({ onRevealComplete }: BackgroundProps) => {
     const { isMobile } = useIsMobile();
     const { scrollYProgress } = useScroll();
     const backgroundOpacity = useTransform(scrollYProgress, [0, 0.34, 0.7, 1], [1, 0, 0, 1]);
@@ -43,6 +50,9 @@ const Background = () => {
             variants={backgroundAnimation}
             initial="hidden"
             animate="visible"
+            onAnimationComplete={definition => {
+                if (definition === 'visible') onRevealComplete?.();
+            }}
             aria-hidden="true"
         >
             <Image

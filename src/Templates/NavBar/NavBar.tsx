@@ -49,13 +49,19 @@ const NavBar: React.FC<NavBarProps> = ({ disabled = false }) => {
 
     return (
         <>
+            {/*
+             * initial={false}: server-render these at their animate state (visible)
+             * instead of off-screen. With initial="hidden" the navbar was absent from
+             * first paint until hydration finished - dead time with nothing to show for
+             * it. The hide/show on case open still animates; only the mount is instant.
+             */}
             <BlurBackgroundContainer
                 variants={navigationAnimation}
-                initial="hidden"
+                initial={false}
                 animate={isClicked ? 'hidden' : 'visible'}
                 style={{ opacity: filter }}
             ></BlurBackgroundContainer>
-            <NavBarContainer variants={navigationAnimation} initial="hidden" animate={isClicked ? 'hidden' : 'visible'}>
+            <NavBarContainer variants={navigationAnimation} initial={false} animate={isClicked ? 'hidden' : 'visible'}>
                 <NavigationBar>
                     <LeftContainer>
                         <NavbarLinkContainer>

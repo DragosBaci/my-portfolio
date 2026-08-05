@@ -13,10 +13,17 @@ import useIsMobile from '../../Hooks/useIsMobile';
  * the static export or shipped in the initial payload. The viewport check then delays
  * the fetch until the model is about to be seen.
  */
-const CanvasModel = dynamic(() => import('./CanvasModel'), {
-    ssr: false,
-    loading: () => null,
-});
+const CanvasModel = dynamic(
+    /* webpackPrefetch emits a <link rel="prefetch"> for the three.js chunk as soon as
+       the page's own JS is up, so the code is already in cache when the viewport check
+       finally imports it - downloading early without also evaluating early, which is
+       the part that would cost main-thread time. */
+    () => import(/* webpackPrefetch: true */ './CanvasModel'),
+    {
+        ssr: false,
+        loading: () => null,
+    }
+);
 
 const DeferredCanvasModel: React.FC = () => {
     const { isMobile } = useIsMobile();

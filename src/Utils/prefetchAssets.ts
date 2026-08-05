@@ -10,6 +10,8 @@ import { CASE_IMAGE_SIZES } from '../Components/Card/Card';
  * dynamic() split exists to keep out of the initial bundle right back into it.
  */
 const MODEL_URL = '/snake_statue.glb';
+/* Self-hosted 'city' environment (133 KB EXR); see CanvasModel. */
+const MODEL_ENVIRONMENT_URL = '/env_city.exr';
 
 /**
  * Warms the browser cache with everything the page will want as the visitor scrolls,
@@ -46,15 +48,25 @@ export function prefetchCaseAssets() {
     }
 
     /*
-     * The statue (~2 MB). Its chunk only downloads when the About section nears the
+     * The statue (~230 KB - meshopt geometry + WebP textures; it was 2 MB before
+     * gltf-transform). Its chunk only downloads when the About section nears the
      * viewport; pulling the model itself into HTTP cache now means that moment costs
-     * one dynamic import instead of an import plus a 2 MB fetch mid-scroll. Reading the
+     * one dynamic import instead of an import plus a fetch mid-scroll. Reading the
      * body to completion is what commits it to cache - an abandoned response may never
      * be stored.
      */
-    fetch(MODEL_URL)
-        .then(response => (response.ok ? response.arrayBuffer() : undefined))
-        .catch(() => {
-            /* Offline or blocked - the deferred loader will retry on its own terms. */
-        });
+    /*
+     * Both files are already preloaded from the document head; these reads adopt those
+     * in-flight responses (same URL, same credentials mode), pull the bodies to
+     * completion and commit them to the HTTP cache - which also keeps Chrome's
+     * "preloaded but not used" warning quiet, since the head hints now have a consumer
+     * well before the model itself mounts.
+     */
+    for (const url of [MODEL_URL, MODEL_ENVIRONMENT_URL]) {
+        fetch(url)
+            .then(response => (response.ok ? response.arrayBuffer() : undefined))
+            .catch(() => {
+                /* Offline or blocked - the deferred loader will retry on its own terms. */
+            });
+    }
 }

@@ -12,7 +12,10 @@ export const backgroundAnimation = {
         opacity: 1,
         clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
         transition: {
-            delay: 1,
+            /* Was a full second: long enough to read as the site being slow rather
+               than as a beat before the reveal. The scroll lock now releases when
+               this animation completes, so trimming it shortens the lock too. */
+            delay: 0.2,
             duration: 1.2,
         },
     },

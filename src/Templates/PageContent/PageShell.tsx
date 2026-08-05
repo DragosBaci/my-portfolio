@@ -23,7 +23,7 @@ import { prefetchCaseAssets } from '../../Utils/prefetchAssets';
  * Module scope, deliberately: `/` and `/[id]` are separate route components, so opening
  * or closing a case unmounts and remounts this shell. Without this flag the intro would
  * replay on every card click - yanking the reader back to the top and locking scroll for
- * 2.5s. It resets on a real page load, which is when the intro should actually run.
+ * its whole run. It resets on a real page load, which is when the intro should actually run.
  */
 let introHasPlayed = false;
 
@@ -57,6 +57,15 @@ function PageShellContent({ caseId }: PageShellProps) {
      */
     const [introDone, setIntroDone] = useState(introHasPlayed);
 
+    /*
+     * Set only while the first-load intro is holding the page; the Background reveal's
+     * completion callback fires it. A ref rather than state because the effect below
+     * runs once and the callback must reach whatever release function that run built.
+     * Later shell remounts get a fresh ref that stays null, so replayed background
+     * reveals (opening/closing a case) can't re-release anything.
+     */
+    const releaseIntroLockRef = useRef<(() => void) | null>(null);
+
     useEffect(() => {
         if (introHasPlayed) return;
         introHasPlayed = true;
@@ -75,7 +84,7 @@ function PageShellContent({ caseId }: PageShellProps) {
 
         /*
          * Mobile shows the same starting point but skips the ceremony - no clip-path
-         * reveal, no 1s delay, no 2.5s scroll lock. The sequence existed to unveil the
+         * reveal, no delay, no scroll lock. The sequence existed to unveil the
          * background, and mobile no longer renders one; all that was left of it there
          * was a phone that ignores touches for 2.5 seconds. Checked via matchMedia
          * rather than the isMobile state, which is still at its server-safe `false`
@@ -87,6 +96,7 @@ function PageShellContent({ caseId }: PageShellProps) {
         }
 
         const releaseScrollLock = () => {
+            releaseIntroLockRef.current = null;
             setIntroDone(true);
             document.body.style.height = 'auto';
             // With a case modal open (deep link, or opened during the intro), the modal
@@ -105,7 +115,15 @@ function PageShellContent({ caseId }: PageShellProps) {
         // page and replays as a lurch the moment the overflow lock lifts.
         getLenis()?.stop();
 
-        const timeoutId = setTimeout(releaseScrollLock, 2500);
+        /*
+         * The reveal's onAnimationComplete is the real release: the lock ends the
+         * moment the choreography does, and retiming the animation can never desync
+         * them. The timer is a safety net at ~3x the reveal's length, for the cases
+         * where the animation callback never comes - chiefly a tab opened in the
+         * background, where rAF-driven animations sit paused until it's foregrounded.
+         */
+        releaseIntroLockRef.current = releaseScrollLock;
+        const timeoutId = setTimeout(releaseScrollLock, 4000);
 
         return () => {
             clearTimeout(timeoutId);
@@ -115,7 +133,7 @@ function PageShellContent({ caseId }: PageShellProps) {
              * in development (mount, unmount, mount), so the cleanup destroyed the only
              * timer that would have unlocked scrolling - and the guard above then made
              * the second mount skip re-arming it. The same trap springs in production if
-             * the shell unmounts within 2.5s, e.g. opening a case straight away.
+             * the shell unmounts mid-reveal, e.g. opening a case straight away.
              */
             releaseScrollLock();
         };
@@ -131,7 +149,7 @@ function PageShellContent({ caseId }: PageShellProps) {
                 so the Lenis instance exists by the time the intro effect above pauses it. */}
             <SmoothScroll />
             {isMobile ? <MobileNav disabled={!introDone} /> : <NavBar disabled={!introDone} />}
-            <Background />
+            <Background onRevealComplete={() => releaseIntroLockRef.current?.()} />
             <Home />
             <AboutMe />
             <Experience />

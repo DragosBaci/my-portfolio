@@ -1,8 +1,34 @@
 'use client';
 
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { keyframes } from 'styled-components';
 import { theme } from '../../Utils/Colors';
+
+/*
+ * The hero entrance lives in CSS, not framer-motion, and the distinction is the whole
+ * point: a framer entrance is server-rendered at its hidden first frame and stays
+ * there until the full JS bundle has downloaded, parsed and hydrated - which made
+ * first paint a blank page for as long as the network needed. A CSS animation ships
+ * inside the server-rendered stylesheet and starts on first paint, before any
+ * JavaScript exists. Same reveal, seconds earlier.
+ *
+ * The keyframes replicate the old titleAnimation variant: rise from below with a
+ * slight swing, wiping up through a bottom clip. globals.css's reduced-motion rule
+ * flattens it for users who ask.
+ */
+const heroReveal = keyframes`
+    from {
+        transform: translate(20px, 100px) rotate(10deg);
+        clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    }
+    to {
+        transform: translate(0px, 0px) rotate(0deg);
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+`;
+
+/* caseEase, in CSS clothing. `both` keeps the pre-delay frames at `from` rather than
+   flashing the settled state for the first 150ms. */
+const heroEntrance = '0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both';
 
 export const HomeContainer = styled.div`
     display: flex;
@@ -42,7 +68,8 @@ export const TitleHeading = styled.h1`
     align-items: flex-start;
 `;
 
-export const Title = styled(motion.span)`
+export const Title = styled.span`
+    animation: ${heroReveal} ${heroEntrance};
     color: ${theme.fontColor};
     font-size: 17.7vw;
     font-family: Tusker-Bold, serif;
@@ -74,7 +101,8 @@ export const SubTitle = styled.div`
     }
 `;
 
-export const DetailsText = styled(motion.p)`
+export const DetailsText = styled.p`
+    animation: ${heroReveal} ${heroEntrance};
     font-family: Neue-Montreal, serif;
     font-size: 2vw;
     text-transform: uppercase;

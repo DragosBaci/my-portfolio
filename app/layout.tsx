@@ -183,16 +183,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   every one of them a second time and never be used. The background's
                   `priority` flag makes Next emit the correct preload for the LCP itself.
 
-                  The 3D model isn't an image, so it still benefits from a hint - kept to
-                  wide viewports because it's 2.1 MB and "idle priority" still competes
-                  for bandwidth on a throttled connection.
+                  The statue's two payloads - the meshopt/WebP GLB (~230 KB) and its
+                  environment EXR (~133 KB) - are hinted as `preload` rather than
+                  `prefetch`: prefetch is idle-priority and browsers routinely hold it
+                  back for seconds, which read as the model "loading slow". These start
+                  downloading the moment the HTML parses; fetchPriority="low" keeps the
+                  fonts and the LCP background ahead of them in the queue. No media gate -
+                  the model renders on phones too. crossOrigin must stay "anonymous" so
+                  the preload matches the credentials mode of the fetch() that consumes
+                  it (both prefetchAssets and three's FileLoader); a mismatch quietly
+                  downloads everything twice.
                 */}
                 <link
-                    rel="prefetch"
+                    rel="preload"
                     href="/snake_statue.glb"
                     as="fetch"
+                    fetchPriority="low"
                     crossOrigin="anonymous"
-                    media="(min-width: 769px)"
+                />
+                <link
+                    rel="preload"
+                    href="/env_city.exr"
+                    as="fetch"
+                    fetchPriority="low"
+                    crossOrigin="anonymous"
                 />
 
                 <script

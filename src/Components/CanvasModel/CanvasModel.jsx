@@ -39,7 +39,13 @@ function CanvasModel({ active = true }) {
                 camera={{ fov: 45, position: [0, 0, 5] }}
             >
                 <PresentationControls speed={1.5} zoom={0} polar={[0, 0]}>
-                    <Stage environment={'city'} intensity={0.5}>
+                    {/* Self-hosted 'city' environment (public/env_city.exr) - the
+                        @pmndrs/assets edition of the same lighting drei's preset string
+                        pulls from a raw.githack.com CDN at the moment the model appears.
+                        512px DWA-compressed EXR: 133 KB against the preset's 1.5 MB HDR,
+                        visually equivalent as a lighting/reflection source, served from
+                        our origin and preloaded from the document head. */}
+                    <Stage environment={{ files: '/env_city.exr' }} intensity={0.5}>
                         <Model />
                     </Stage>
                 </PresentationControls>
